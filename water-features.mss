@@ -114,7 +114,8 @@
   }
 }
 
-.text,
+/* used to be .text */
+#text-point, #text-poly,
 #text-line {
   [feature = 'waterway_dam'],
   [feature = 'waterway_weir'] {

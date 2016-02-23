@@ -647,7 +647,8 @@
   }
 }
 
-.barriers {
+/* used to be .barriers */
+#line-barriers, #area-barriers {
   [zoom >= 16] {
     line-width: 0.4;
     line-color: #444;

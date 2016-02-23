@@ -22,7 +22,8 @@
 @standard-text-size: 10;
 
 /* Note that .points is also used in water-features.mss */
-.points {
+/* used to be: .points */
+#amenity-points, #amenity-points-poly {
   [feature = 'tourism_alpine_hut'][zoom >= 13] {
     point-file: url('symbols/alpinehut.p.16.png');
     point-placement: interior;
@@ -1030,7 +1031,8 @@
   }
 }
 
-.amenity-low-priority {
+/* used to be .amentiy-low-priority */
+#amenity-low-priority, #amenity-low-priority-poly {
   [feature = 'man_made_cross'][zoom >= 16],
   [feature = 'historic_wayside_cross'][zoom >= 16] {
     marker-file: url('symbols/christian.9.svg');
@@ -1117,8 +1119,10 @@
 }
 
 /* Note that .text is also used in water.mss */
-.text-low-zoom[zoom < 10],
-.text[zoom >= 10] {
+/* Used to be .text-low-zoom */
+#text-poly[zoom >= 10],
+#text-point[zoom >= 10],
+#text-poly-low-zoom[zoom < 10] {
   [feature = 'place_island'][zoom >= 7][way_pixels > 3000][way_pixels < 800000],
   [feature = 'place_island'][zoom >= 16][way_pixels < 800000],
   [feature = 'place_islet'][zoom >= 14][way_pixels > 3000][way_pixels < 800000],

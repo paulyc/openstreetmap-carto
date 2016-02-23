@@ -3,7 +3,8 @@
 @country-labels: darken(@admin-boundaries, 15%);
 @state-labels: desaturate(darken(@admin-boundaries, 5%), 20%);
 
-.country {
+/* used to be .country */
+#placenames-large {
   [admin_level = '2'][zoom >= 3][way_pixels > 1000][way_pixels < 360000] {
     text-name: "[name]";
     text-size: 9;
@@ -35,7 +36,8 @@
   }
 }
 
-.state {
+/* used to be .state */
+#placenames-large {
   [admin_level = '4'] {
     [zoom >= 4][zoom < 5][way_pixels > 750],
     [zoom >= 5][way_pixels > 3000][way_pixels < 196000] {

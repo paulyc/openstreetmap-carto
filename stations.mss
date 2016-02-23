@@ -1,7 +1,8 @@
 @station-color: #7981b0;
 @station-text: darken(saturate(@station-color, 15%), 10%);
 
-.stations {
+/* used to be .stations */
+#stations {
   [railway = 'subway_entrance'][zoom >= 18] {
     marker-file: url('symbols/entrance.10.svg');
     marker-placement: interior;

@@ -93,7 +93,8 @@
   }
 }
 
-.water-lines {
+/* used to be .water-lines */
+#water-lines {
   [waterway = 'canal'][zoom >= 12],
   [waterway = 'river'][zoom >= 12],
   [waterway = 'wadi'][zoom >= 13] {
@@ -278,7 +279,8 @@
   }
 }
 
-.text[zoom >= 10] {
+/* used to be .text[zoom >= 10] */
+#text-poly[zoom >= 10], #text-point[zoom >= 10] {
   [feature = 'natural_water'],
   [feature = 'landuse_reservoir'],
   [feature = 'landuse_basin'] {
