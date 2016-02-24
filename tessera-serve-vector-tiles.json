@@ -1,0 +1,4 @@
+{
+        "/pbfs/live": "tmsource://./",
+        "/tiles": "tmstyle://./"
+}

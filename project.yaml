@@ -35,7 +35,11 @@ _parts:
     geometry_field: "way"
     extent: "-20037508,-20037508,20037508,20037508"
 
-Stylesheet:
+source: 'tilejson+http://localhost:8080/pbfs/live/index.json'
+#source: 'tilejson+http://localhost:9000/index.json'
+
+
+styles:
   - "style.mss"
   - "shapefiles.mss"
   - "landcover.mss"
