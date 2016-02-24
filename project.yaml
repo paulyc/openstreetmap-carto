@@ -2497,7 +2497,7 @@ Layer:
       geometry_table: planet_osm_polygon
       table: |-
         (SELECT
-            way,
+            ST_Boundary(way) as way,
             name,
             admin_level
           FROM planet_osm_polygon
