@@ -186,6 +186,7 @@ Layer:
         ) AS features
     properties:
       minzoom: 10
+      buffer-size: 2
     advanced: {}
   - id: "landcover-line"
     name: "landcover-line"
@@ -481,6 +482,7 @@ Layer:
         ) AS buildings
     properties:
       minzoom: 13
+      buffer-size: 2
     advanced: {}
   - id: "buildings-major"
     name: "buildings-major"
@@ -678,6 +680,7 @@ Layer:
         ) AS landuse_overlay
     properties:
       minzoom: 7
+      buffer-size: 4
     advanced: {}
   - id: "line-barriers"
     name: "line-barriers"
@@ -938,6 +941,7 @@ Layer:
         ) AS roads_casing
     properties:
       minzoom: 9
+      buffer-size: 8
     advanced: {}
   - id: "highway-area-fill"
     name: "highway-area-fill"
@@ -1115,6 +1119,7 @@ Layer:
         ) AS roads_fill
     properties:
       minzoom: 10
+      buffer-size: 8
     advanced: {}
   - id: "turning-circle-fill"
     name: "turning-circle-fill"
@@ -1492,6 +1497,7 @@ Layer:
         ) AS national_park_boundaries
     properties:
       minzoom: 7
+      buffer-size: 10
     advanced: {}
   - id: "tourism-boundary"
     name: "tourism-boundary"
@@ -1513,6 +1519,7 @@ Layer:
         ) AS tourism_boundary
     properties:
       minzoom: 10
+      buffer-size: 16
     advanced: {}
   - id: "trees"
     name: "trees"
@@ -1560,6 +1567,7 @@ Layer:
         ) AS placenames_large
     properties:
       minzoom: 2
+      buffer-size: 128
     advanced: {}
   - id: "placenames-medium"
     name: "placenames-medium"
@@ -1607,6 +1615,7 @@ Layer:
     properties:
       minzoom: 4
       maxzoom: 15
+      buffer-size: 128
     advanced: {}
   - id: "placenames-small"
     name: "placenames-small"
@@ -1636,6 +1645,7 @@ Layer:
         ) AS placenames_small
     properties:
       minzoom: 12
+      buffer-size: 128
     advanced: {}
   - id: "stations"
     class: "stations"
@@ -1664,6 +1674,7 @@ Layer:
         ) AS stations
     properties:
       minzoom: 12
+      buffer-size: 32
     advanced: {}
   - id: "stations-poly"
     name: "stations-poly"
@@ -1767,6 +1778,7 @@ Layer:
         ) AS amenity_points_poly
     properties:
       minzoom: 10
+      buffer-size: 8
     advanced: {}
   - id: "amenity-points"
     name: "amenity-points"
@@ -1857,6 +1869,7 @@ Layer:
           ) AS amenity_points
     properties:
       minzoom: 10
+      buffer-size: 8
     advanced: {}
   - id: "power-towers"
     name: "power-towers"
@@ -1920,6 +1933,7 @@ Layer:
     properties:
       minzoom: 10
       maxzoom: 12
+      buffer-size: 64
     advanced: {}
   - id: "junctions"
     name: "junctions"
@@ -1941,6 +1955,7 @@ Layer:
         ) AS junctions
     properties:
       minzoom: 11
+      buffer-size: 32
     advanced: {}
   - id: "bridge-text"
     name: "bridge-text"
@@ -1992,6 +2007,7 @@ Layer:
           WHERE height <= 4 AND width <= 11) AS roads_text_ref
     properties:
       minzoom: 13
+      buffer-size: 128
     advanced: {}
   - id: "roads-area-text-name"
     name: "roads-area-text-name"
@@ -2091,6 +2107,7 @@ Layer:
     properties:
       minzoom: 7
       maxzoom: 9
+      buffer-size: 30
     advanced: {}
   - id: "text-poly"
     name: "text-poly"
@@ -2188,6 +2205,7 @@ Layer:
         ) AS text_poly
     properties:
       minzoom: 10
+      buffer-size: 48
     advanced: {}
   - id: "text-line"
     name: "text-line"
@@ -2348,6 +2366,7 @@ Layer:
           ) AS text
     properties:
       minzoom: 10
+      buffer-size: 48
     advanced: {}
   - id: "building-text"
     name: "building-text"
@@ -2370,6 +2389,7 @@ Layer:
         ) AS building_text
     properties:
       minzoom: 14
+      buffer-size: 128
     advanced: {}
   - id: "interpolation"
     name: "interpolation"
@@ -2415,6 +2435,7 @@ Layer:
         ) AS housenumbers
     properties:
       minzoom: 17
+      buffer-size: 32
     advanced: {}
   - id: "housenames"
     name: "housenames"
@@ -2442,6 +2463,7 @@ Layer:
         ) AS housenames
     properties:
       minzoom: 17
+      buffer-size: 32
     advanced: {}
   - id: "water-lines-text"
     name: "water-lines-text"
@@ -2528,6 +2550,7 @@ Layer:
         ) AS nature_reserve_text
     properties:
       minzoom: 13
+      buffer-size: 30
     advanced: {}
   - id: "amenity-low-priority"
     name: "amenity-low-priority"
