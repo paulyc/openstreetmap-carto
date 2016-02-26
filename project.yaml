@@ -1553,7 +1553,7 @@ Layer:
       geometry_table: planet_osm_point  # to ensure it gets a POINT back, not a POLYGON
       table: |-
         (SELECT
-            way,
+            CASE WHEN ST_IsValid(way) THEN ST_PointOnSurface(way) ELSE NULL END as way,
             way_area/NULLIF(!pixel_width!::real*!pixel_height!::real,0) AS way_pixels,
             name,
             ref,
@@ -1563,6 +1563,7 @@ Layer:
             AND admin_level IN ('2', '4')
             AND name IS NOT NULL
             AND way_area > 750*!pixel_width!::real*!pixel_height!::real -- only labels for larger areas are displayed
+            AND way && !bbox!
           ORDER BY admin_level ASC, way_area DESC
         ) AS placenames_large
     properties:
@@ -1707,7 +1708,7 @@ Layer:
       geometry_table: planet_osm_point      # hack to ensure result is POINT not POLYGON
       table: |-
         (SELECT
-            way,
+            CASE WHEN ST_IsValid(way) THEN ST_PointOnSurface(way) ELSE NULL END as way,
             COALESCE(
               'aeroway_' || CASE WHEN aeroway IN ('helipad', 'aerodrome') THEN aeroway ELSE NULL END,
               'tourism_' || CASE WHEN tourism IN ('alpine_hut', 'camp_site', 'caravan_site', 'chalet', 'guest_house', 
@@ -1756,7 +1757,8 @@ Layer:
             way_area/NULLIF(!pixel_width!::real*!pixel_height!::real,0) AS way_pixels
           FROM planet_osm_polygon
           -- The upcoming where clause is needed for performance only, as the CASE statements would end up doing the equivalent filtering
-          WHERE aeroway IN ('helipad', 'aerodrome')
+          WHERE (
+               aeroway IN ('helipad', 'aerodrome')
             OR tourism IN ('alpine_hut', 'camp_site', 'caravan_site', 'chalet', 'guest_house', 'hostel', 
                            'hotel', 'motel', 'information', 'museum', 'viewpoint', 'picnic_site')
             OR amenity IN ('shelter', 'atm', 'bank', 'bar', 'bicycle_rental', 'bus_station', 'cafe', 
@@ -1774,6 +1776,7 @@ Layer:
             OR historic IN ('memorial', 'monument', 'archaeological_site')
             OR highway IN ('bus_stop', 'elevator', 'traffic_signals')
             OR (power = 'generator' AND ("generator:source" = 'wind' OR power_source = 'wind'))
+            ) AND way && !bbox!
           ORDER BY way_area desc
         ) AS amenity_points_poly
     properties:
@@ -1945,13 +1948,15 @@ Layer:
       geometry_table: planet_osm_point
       table: |-
         (SELECT
-            way,
+            CASE WHEN ST_IsValid(way) THEN ST_PointOnSurface(way) ELSE NULL END as way,
             highway,
             junction,
             ref,
             name
           FROM planet_osm_point
-          WHERE highway = 'motorway_junction' OR highway = 'traffic_signals' OR junction = 'yes'
+          WHERE (
+            highway = 'motorway_junction' OR highway = 'traffic_signals' OR junction = 'yes'
+            ) AND way && !bbox!
         ) AS junctions
     properties:
       minzoom: 11
@@ -2083,7 +2088,7 @@ Layer:
       geometry_table: planet_osm_point      # hack to get POINT result
       table: |-
         (SELECT
-            way,
+            CASE WHEN ST_IsValid(way) THEN ST_PointOnSurface(way) ELSE NULL END as way,
             way_area/NULLIF(!pixel_width!::real*!pixel_height!::real,0) AS way_pixels,
             COALESCE(
               'landuse_' || CASE WHEN landuse IN ('forest', 'military') THEN landuse ELSE NULL END,
@@ -2102,6 +2107,7 @@ Layer:
               OR leisure IN ('nature_reserve'))
             AND building IS NULL
             AND name IS NOT NULL
+            AND way && !bbox!
           ORDER BY way_area DESC
         ) AS text_poly_low_zoom
     properties:
@@ -2121,7 +2127,7 @@ Layer:
       # see https://github.com/gravitystorm/openstreetmap-carto/pull/1349#issuecomment-77805678
       table: |-
         (SELECT
-            way,
+            CASE WHEN ST_IsValid(way) THEN ST_PointOnSurface(way) ELSE NULL END as way,
             way_area/NULLIF(!pixel_width!::real*!pixel_height!::real,0) AS way_pixels,
             COALESCE(
               'aeroway_' || CASE WHEN aeroway IN ('gate', 'apron', 'helipad', 'aerodrome') THEN aeroway ELSE NULL END,
@@ -2201,6 +2207,7 @@ Layer:
             AND (name IS NOT NULL
                  OR (ref IS NOT NULL AND aeroway IN ('gate'))
                 )
+              AND way && !bbox!
           ORDER BY way_area DESC
         ) AS text_poly
     properties:
@@ -2379,12 +2386,13 @@ Layer:
       table: |-
         (SELECT
             name,
-            way,
+            CASE WHEN ST_IsValid(way) THEN ST_PointOnSurface(way) ELSE NULL END as way,
             way_area/NULLIF(!pixel_width!::real*!pixel_height!::real,0) AS way_pixels
           FROM planet_osm_polygon
           WHERE building IS NOT NULL
             AND building NOT IN ('no')
             AND name IS NOT NULL
+            AND way && !bbox!
           ORDER BY way_area DESC
         ) AS building_text
     properties:
@@ -2418,19 +2426,20 @@ Layer:
       geometry_table: planet_osm_point      # hack to get POINT returned
       table: |-
         (SELECT
-            way,
+            CASE WHEN ST_IsValid(way) THEN ST_PointOnSurface(way) ELSE NULL END as way,
             "addr:housenumber",
             way_area/NULLIF(!pixel_width!::real*!pixel_height!::real,0) AS way_pixels
           FROM planet_osm_polygon
           WHERE "addr:housenumber" IS NOT NULL
             AND building IS NOT NULL
+            AND way && !bbox!
         UNION ALL
         SELECT
-            way,
+            CASE WHEN ST_IsValid(way) THEN ST_PointOnSurface(way) ELSE NULL END as way,
             "addr:housenumber",
             NULL AS way_pixels
           FROM planet_osm_point
-          WHERE "addr:housenumber" IS NOT NULL
+          WHERE "addr:housenumber" IS NOT NULL AND way && !bbox!
           ORDER BY way_pixels DESC NULLS LAST
         ) AS housenumbers
     properties:
@@ -2447,18 +2456,19 @@ Layer:
       geometry_table: planet_osm_point      # hack to get POINT returned
       table: |-
         (SELECT
-            way,
+            CASE WHEN ST_IsValid(way) THEN ST_PointOnSurface(way) ELSE NULL END as way,
             "addr:housename",
             way_area/NULLIF(!pixel_width!::real*!pixel_height!::real,0) AS way_pixels
           FROM planet_osm_polygon
           WHERE "addr:housename" IS NOT NULL
             AND building IS NOT NULL
+            AND way && !bbox!
         UNION ALL
         SELECT
-            way,
+            CASE WHEN ST_IsValid(way) THEN ST_PointOnSurface(way) ELSE NULL END as way,
             "addr:housename",
             NULL AS way_pixels
-          FROM planet_osm_point WHERE "addr:housename" IS NOT NULL
+          FROM planet_osm_point WHERE "addr:housename" IS NOT NULL AND way && !bbox!
         ORDER BY way_pixels DESC NULLS LAST
         ) AS housenames
     properties:
@@ -2541,12 +2551,13 @@ Layer:
       geometry_table: planet_osm_polygon
       table: |-
         (SELECT
-            way,
+            CASE WHEN ST_IsValid(way) THEN ST_PointOnSurface(way) ELSE NULL END as way,
             name,
             way_area/NULLIF(!pixel_width!::real*!pixel_height!::real,0) AS way_pixels
           FROM planet_osm_polygon
           WHERE (boundary = 'national_park' OR leisure = 'nature_reserve')
             AND name IS NOT NULL
+            AND way && !bbox!
         ) AS nature_reserve_text
     properties:
       minzoom: 13
