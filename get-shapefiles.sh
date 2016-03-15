@@ -75,7 +75,7 @@ unzip $UNZIP_OPTS data/antarctica-icesheet-outlines-3857.zip \
 
 #index
 echo "indexing shapefiles"
-shapeindex --shape_files \
+./node_modules/.bin/mapnik-shapeindex.js --shape_files \
 data/simplified-land-polygons-complete-3857/simplified_land_polygons.shp \
 data/land-polygons-split-3857/land_polygons.shp \
 data/antarctica-icesheet-polygons-3857/icesheet_polygons.shp \
