@@ -112,6 +112,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_polygon
       table: |-
         (SELECT
             way, name, way_pixels,
@@ -140,6 +141,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_polygon
       table: |-
         (SELECT
             way, name, religion, way_pixels,
@@ -192,6 +194,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_line
       table: |-
         (SELECT
             way
@@ -208,6 +211,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_line
       table: |-
         (SELECT
             way, waterway, intermittent,
@@ -225,6 +229,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_line
       table: |-
         (SELECT way, waterway, intermittent
           FROM planet_osm_line
@@ -252,6 +257,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_polygon
       table: |-
         (SELECT
             way,
@@ -279,6 +285,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_polygon
       table: |-
         (SELECT
             way, surface, 
@@ -320,6 +327,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_line
       table: |-
         (SELECT
             way, waterway, name, intermittent,
@@ -340,6 +348,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_line
       table: |-
         (SELECT way, waterway, name
           FROM planet_osm_line
@@ -355,6 +364,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_polygon
       table: |-
         (SELECT way, waterway, name
           FROM planet_osm_polygon
@@ -370,6 +380,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_polygon
       table: |-
         (SELECT
             way
@@ -386,6 +397,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_polygon
       table: |-
         (SELECT
             way, man_made
@@ -402,6 +414,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_line
       table: |-
         (SELECT
             way, man_made
@@ -418,6 +431,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_point
       table: |-
         (SELECT
             way, waterway
@@ -434,6 +448,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_polygon
       table: |-
         (SELECT
             way,
@@ -453,6 +468,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_polygon
       table: |-
         (SELECT
             way,
@@ -473,6 +489,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_polygon
       table: |-
         (SELECT
             way,
@@ -496,6 +513,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_line
       # This query is quite large, having to deal with both roads, railways and
       # runways. To allow for ways that are both railways and roads, a UNION
       # ALL is present, and to use an ordering different than current osm2pgsql
@@ -631,6 +649,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_line
       table: |-
         (SELECT
             way
@@ -647,6 +666,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_polygon
       table: |-
         (SELECT
             way,
@@ -666,6 +686,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_line
       table: |-
         (SELECT
             way, barrier
@@ -684,6 +705,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_line
       table: |-
         (SELECT
             way, "natural", man_made
@@ -700,6 +722,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_polygon
       table: |-
         (SELECT
             way, barrier
@@ -716,6 +739,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_line
       table: |-
         (SELECT
             way
@@ -732,6 +756,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_point
       table: |-
         (SELECT DISTINCT ON (p.way)
             p.way AS way, l.highway AS int_tc_type,
@@ -763,6 +788,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_polygon
       table: |-
         (SELECT
             way,
@@ -785,6 +811,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_line
       table: |-
         (SELECT way, (CASE WHEN substr(feature, length(feature)-3, 4) = 'link' THEN substr(feature, 0, length(feature)-4) ELSE feature END) AS feature,
                 horse, foot, bicycle, tracktype, int_surface, access, construction,
@@ -919,6 +946,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_polygon
       table: |-
         (SELECT
             way,
@@ -949,6 +977,7 @@ Layer:
       # - Have roads and railways in the same layer to get ordering right
       # - Return two linestrings for ways which are both a road and railway
       # - Compute z_order here, rather than rely on osm2pgsql z_order
+      geometry_table: planet_osm_line
       table: |-
         (SELECT
             way,
@@ -1094,6 +1123,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_point
       table: |-
         (SELECT
             DISTINCT on (p.way)
@@ -1125,6 +1155,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_line
       table: |-
         (SELECT
             way,
@@ -1142,6 +1173,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_roads
       table: |-
         (SELECT
             way,
@@ -1175,6 +1207,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_line
       table: |-
         (SELECT
             way,
@@ -1198,6 +1231,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_line
       table: |-
         (SELECT way, (CASE WHEN substr(feature, length(feature)-3, 4) = 'link' THEN substr(feature, 0, length(feature)-4) ELSE feature END) AS feature,
                 horse, foot, bicycle, tracktype, int_surface, access, construction,
@@ -1329,6 +1363,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_line
       table: |-
         (SELECT
             way
@@ -1345,6 +1380,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_roads
       table: |-
         (SELECT
             way,
@@ -1365,6 +1401,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_roads
       table: |-
         (SELECT
             way,
@@ -1386,6 +1423,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_roads
       table: |-
         (SELECT
             way,
@@ -1406,6 +1444,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_line
       table: |-
         (SELECT
             way
@@ -1422,6 +1461,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_line
       table: |-
         (SELECT
             way
@@ -1438,6 +1478,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_polygon
       table: |-
         (SELECT
             way,
@@ -1459,6 +1500,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_polygon
       table: |-
         (SELECT
             way,
@@ -1479,6 +1521,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_line
       table: |-
         (SELECT
             way, "natural"
@@ -1500,6 +1543,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_point  # to ensure it gets a POINT back, not a POLYGON
       table: |-
         (SELECT
             way,
@@ -1524,6 +1568,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_point
       table: |-
         (SELECT
             way,
@@ -1570,6 +1615,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_point
       table: |-
         (SELECT
             way,
@@ -1598,6 +1644,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_point
       table: |-
         (SELECT
             way,
@@ -1625,6 +1672,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_polygon
       table: |-
         (SELECT
             way,
@@ -1645,6 +1693,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_point      # hack to ensure result is POINT not POLYGON
       table: |-
         (SELECT
             way,
@@ -1726,6 +1775,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_point
       table: |-
         (SELECT
             way,
@@ -1815,6 +1865,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_point
       table: |-
         (SELECT
             way
@@ -1831,6 +1882,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_point
       table: |-
         (SELECT
             way
@@ -1847,6 +1899,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_roads
       table: |-
         (SELECT way, highway, height, width, refs FROM
           (SELECT
@@ -1875,6 +1928,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_point
       table: |-
         (SELECT
             way,
@@ -1895,6 +1949,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_polygon
       table: |-
         (SELECT
             way,
@@ -1914,6 +1969,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_line
       table: |-
         (SELECT way, highway, height, width, refs FROM
           (SELECT
@@ -1944,6 +2000,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_polygon
       table: |-
         (SELECT
             way,
@@ -1965,6 +2022,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_line
       table: |-
         (SELECT way,
             CASE WHEN substr(highway, length(highway)-3, 4) = 'link' THEN substr(highway, 0, length(highway)-4) ELSE highway END,
@@ -1986,6 +2044,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_line
       table: |-
         (SELECT
             way,
@@ -2005,6 +2064,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_point      # hack to get POINT result
       table: |-
         (SELECT
             way,
@@ -2039,6 +2099,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_point      # hack to get POINT returned
       # Include values that are rendered as icon without label to prevent mismatch between icons and labels,
       # see https://github.com/gravitystorm/openstreetmap-carto/pull/1349#issuecomment-77805678
       table: |-
@@ -2135,6 +2196,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_line
       table: |-
         (SELECT
           way,
@@ -2162,6 +2224,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_point
       # Include values that are rendered as icon without label to prevent mismatch between icons and labels,
       # see https://github.com/gravitystorm/openstreetmap-carto/pull/1349#issuecomment-77805678
       table: |-
@@ -2293,6 +2356,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_point      # hack to get POINT returned
       table: |-
         (SELECT
             name,
@@ -2314,6 +2378,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_line
       table: |-
         (SELECT
             way
@@ -2330,6 +2395,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_point      # hack to get POINT returned
       table: |-
         (SELECT
             way,
@@ -2357,6 +2423,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_point      # hack to get POINT returned
       table: |-
         (SELECT
             way,
@@ -2383,6 +2450,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_line
       table: |-
         (SELECT
             way,
@@ -2407,6 +2475,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_line
       table: |-
         (SELECT
             way,
@@ -2425,6 +2494,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_polygon
       table: |-
         (SELECT
             way,
@@ -2446,6 +2516,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_polygon
       table: |-
         (SELECT
             way,
@@ -2465,6 +2536,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_point
       table: |-
         (SELECT
             way,
@@ -2497,6 +2569,7 @@ Layer:
     <<: *extents
     Datasource:
       <<: *osm2pgsql
+      geometry_table: planet_osm_polygon
       table: |-
         (SELECT
             way,
