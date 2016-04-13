@@ -1738,7 +1738,7 @@ Layer:
       geometry_table: planet_osm_point  # to ensure it gets a POINT back, not a POLYGON
       table: |-
         (SELECT
-            CASE WHEN ST_IsValid(way) THEN ST_PointOnSurface(way) ELSE NULL END as way,
+            ST_Centroid(way) as way,
             way_area/NULLIF(!pixel_width!::real*!pixel_height!::real,0) AS way_pixels,
             name,
             ref,
@@ -1916,7 +1916,7 @@ Layer:
       geometry_table: planet_osm_point      # hack to ensure result is POINT not POLYGON
       table: |-
         (SELECT
-            CASE WHEN ST_IsValid(way) THEN ST_PointOnSurface(way) ELSE NULL END as way,
+            ST_Centroid(way) as way,
             COALESCE(
               'aeroway_' || CASE WHEN aeroway IN ('helipad', 'aerodrome') THEN aeroway ELSE NULL END,
               'tourism_' || CASE WHEN tourism IN ('alpine_hut', 'camp_site', 'caravan_site', 'chalet', 'guest_house', 
@@ -2175,7 +2175,7 @@ Layer:
       geometry_table: planet_osm_point
       table: |-
         (SELECT
-            CASE WHEN ST_IsValid(way) THEN ST_PointOnSurface(way) ELSE NULL END as way,
+            ST_Centroid(way) as way,
             highway,
             junction,
             ref,
@@ -2347,7 +2347,7 @@ Layer:
       geometry_table: planet_osm_point      # hack to get POINT result
       table: |-
         (SELECT
-            CASE WHEN ST_IsValid(way) THEN ST_PointOnSurface(way) ELSE NULL END as way,
+            ST_Centroid(way) as way,
             way_area/NULLIF(!pixel_width!::real*!pixel_height!::real,0) AS way_pixels,
             COALESCE(
               'landuse_' || CASE WHEN landuse IN ('forest', 'military') THEN landuse ELSE NULL END,
@@ -2391,7 +2391,7 @@ Layer:
       # see https://github.com/gravitystorm/openstreetmap-carto/pull/1349#issuecomment-77805678
       table: |-
         (SELECT
-            CASE WHEN ST_IsValid(way) THEN ST_PointOnSurface(way) ELSE NULL END as way,
+            ST_Centroid(way) as way,
             way_area/NULLIF(!pixel_width!::real*!pixel_height!::real,0) AS way_pixels,
             COALESCE(
               'aeroway_' || CASE WHEN aeroway IN ('gate', 'apron', 'helipad', 'aerodrome') THEN aeroway ELSE NULL END,
@@ -2675,7 +2675,7 @@ Layer:
       table: |-
         (SELECT
             name,
-            CASE WHEN ST_IsValid(way) THEN ST_PointOnSurface(way) ELSE NULL END as way,
+            ST_Centroid(way) as way,
             way_area/NULLIF(!pixel_width!::real*!pixel_height!::real,0) AS way_pixels
           FROM planet_osm_polygon
           WHERE building IS NOT NULL
@@ -2721,7 +2721,7 @@ Layer:
       geometry_table: planet_osm_point      # hack to get POINT returned
       table: |-
         (SELECT
-            CASE WHEN ST_IsValid(way) THEN ST_PointOnSurface(way) ELSE NULL END as way,
+            ST_Centroid(way) as way,
             "addr:housenumber",
             way_area/NULLIF(!pixel_width!::real*!pixel_height!::real,0) AS way_pixels
           FROM planet_osm_polygon
@@ -2730,7 +2730,7 @@ Layer:
             AND way && !bbox!
         UNION ALL
         SELECT
-            CASE WHEN ST_IsValid(way) THEN ST_PointOnSurface(way) ELSE NULL END as way,
+            ST_Centroid(way) as way,
             "addr:housenumber",
             NULL AS way_pixels
           FROM planet_osm_point
@@ -2755,7 +2755,7 @@ Layer:
       geometry_table: planet_osm_point      # hack to get POINT returned
       table: |-
         (SELECT
-            CASE WHEN ST_IsValid(way) THEN ST_PointOnSurface(way) ELSE NULL END as way,
+            ST_Centroid(way) as way,
             "addr:housename",
             way_area/NULLIF(!pixel_width!::real*!pixel_height!::real,0) AS way_pixels
           FROM planet_osm_polygon
@@ -2764,7 +2764,7 @@ Layer:
             AND way && !bbox!
         UNION ALL
         SELECT
-            CASE WHEN ST_IsValid(way) THEN ST_PointOnSurface(way) ELSE NULL END as way,
+            ST_Centroid(way) as way,
             "addr:housename",
             NULL AS way_pixels
           FROM planet_osm_point WHERE "addr:housename" IS NOT NULL AND way && !bbox!
@@ -2868,7 +2868,7 @@ Layer:
       geometry_table: planet_osm_polygon
       table: |-
         (SELECT
-            CASE WHEN ST_IsValid(way) THEN ST_PointOnSurface(way) ELSE NULL END as way,
+            ST_Centroid(way) as way,
             name,
             way_area/NULLIF(!pixel_width!::real*!pixel_height!::real,0) AS way_pixels
           FROM planet_osm_polygon
