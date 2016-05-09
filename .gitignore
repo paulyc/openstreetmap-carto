@@ -4,3 +4,6 @@ data/
 *.xml
 node_modules/
 localconfig.json
+osm-carto.tm2/*
+osm-carto.tm2source/*
+osm-carto-no-pois.tm2/*
