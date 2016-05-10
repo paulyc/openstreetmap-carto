@@ -14,7 +14,7 @@ center:
 format: "png"
 interactivity: false
 minzoom: 0
-maxzoom: 14
+maxzoom: 22
 srs: "+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0.0 +k=1.0 +units=m +nadgrids=@null +wktext +no_defs +over"
 
 # Various parts to be included later on
@@ -78,7 +78,7 @@ Layer:
       type: "shape"
     properties:
       minzoom: 10
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "builtup"
     name: "builtup"
@@ -187,7 +187,7 @@ Layer:
         ) AS features
     properties:
       minzoom: 10
-      maxzoom: 14
+      maxzoom: 22
       buffer-size: 2
     advanced: {}
   - id: "landcover-line"
@@ -207,7 +207,7 @@ Layer:
     advanced: {}
     properties:
       minzoom: 14
-      maxzoom: 14
+      maxzoom: 22
   - id: "water-lines-casing"
     name: "water-lines-casing"
     class: ""
@@ -225,7 +225,7 @@ Layer:
         ) AS water_lines_casing
     properties:
       minzoom: 13
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "water-lines-low-zoom"
     name: "water-lines-low-zoom"
@@ -254,7 +254,7 @@ Layer:
       type: "shape"
     properties:
       minzoom: 4
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "water-areas"
     name: "water-areas"
@@ -283,7 +283,7 @@ Layer:
         ) AS water_areas
     properties:
       minzoom: 4
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "landcover-area-symbols"
     name: "landcover-area-symbols"
@@ -315,7 +315,7 @@ Layer:
         ) AS landcover_area_symbols
     properties:
       minzoom: 10
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "icesheet-outlines"
     name: "icesheet-outlines"
@@ -327,7 +327,7 @@ Layer:
       type: "shape"
     properties:
       minzoom: 4
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "water-lines"
     name: "water-lines"
@@ -349,7 +349,7 @@ Layer:
         ) AS water_lines
     properties:
       minzoom: 12
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "water-barriers-line"
     name: "water-barriers-line"
@@ -367,7 +367,7 @@ Layer:
     advanced: {}
     properties:
       minzoom: 13
-      maxzoom: 14
+      maxzoom: 22
   - id: "water-barriers-poly"
     name: "water-barriers-poly"
     class: ""
@@ -384,7 +384,7 @@ Layer:
     advanced: {}
     properties:
       minzoom: 13
-      maxzoom: 14
+      maxzoom: 22
   - id: "marinas-area"
     name: "marinas-area"
     class: ""
@@ -401,7 +401,7 @@ Layer:
         ) AS marinas_area
     properties:
       minzoom: 14
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "piers-poly"
     name: "piers-poly"
@@ -419,7 +419,7 @@ Layer:
         ) AS piers_poly
     properties:
       minzoom: 12
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "piers-line"
     name: "piers-line"
@@ -437,7 +437,7 @@ Layer:
         ) AS piers_line
     properties:
       minzoom: 12
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "water-barriers-point"
     name: "water-barriers-point"
@@ -455,7 +455,7 @@ Layer:
         ) AS water_barriers_points
     properties:
       minzoom: 14
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "bridge"
     name: "bridge"
@@ -476,7 +476,7 @@ Layer:
         ) AS bridge
     properties:
       minzoom: 12
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "buildings"
     name: "buildings"
@@ -498,7 +498,7 @@ Layer:
         ) AS buildings
     properties:
       minzoom: 13
-      maxzoom: 14
+      maxzoom: 22
       buffer-size: 2
     advanced: {}
   - id: "buildings-major"
@@ -524,7 +524,7 @@ Layer:
         AS buildings_major
     properties:
       minzoom: 13
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "tunnels"
     name: "tunnels"
@@ -661,7 +661,7 @@ Layer:
     properties:
       group-by: "layernotnull"
       minzoom: 9
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "citywalls"
     name: "citywalls"
@@ -680,7 +680,7 @@ Layer:
     advanced: {}
     properties:
       minzoom: 14
-      maxzoom: 14
+      maxzoom: 22
   - id: "landuse-overlay"
     name: "landuse-overlay"
     class: ""
@@ -701,7 +701,7 @@ Layer:
     properties:
       minzoom: 7
       buffer-size: 4
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "line-barriers"
     name: "line-barriers"
@@ -721,7 +721,7 @@ Layer:
         ) AS line_barriers
     properties:
       minzoom: 14
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "cliffs"
     name: "cliffs"
@@ -739,7 +739,7 @@ Layer:
         ) AS cliffs
     properties:
       minzoom: 13
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "area-barriers"
     name: "area-barriers"
@@ -757,7 +757,7 @@ Layer:
         ) AS area_barriers
     properties:
       minzoom: 14
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "ferry-routes"
     name: "ferry-routes"
@@ -775,7 +775,7 @@ Layer:
         ) AS ferry_routes
     properties:
       minzoom: 7
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "turning-circle-casing"
     name: "turning-circle-casing"
@@ -808,7 +808,7 @@ Layer:
         ) AS turning_circle_casing
     properties:
       minzoom: 14
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "highway-area-casing"
     name: "highway-area-casing"
@@ -832,7 +832,7 @@ Layer:
         ) AS highway_area_casing
     properties:
       minzoom: 14
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - name: "roads-casing"
     id: "roads-casing"
@@ -968,7 +968,7 @@ Layer:
         ) AS roads_casing
     properties:
       minzoom: 9
-      maxzoom: 14
+      maxzoom: 22
       buffer-size: 8
     advanced: {}
   - id: "highway-area-fill"
@@ -996,7 +996,7 @@ Layer:
         ) AS highway_area_fill
     properties:
       minzoom: 14
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "roads-fill"
     name: "roads-fill"
@@ -1148,7 +1148,7 @@ Layer:
         ) AS roads_fill
     properties:
       minzoom: 10
-      maxzoom: 14
+      maxzoom: 22
       buffer-size: 8
     advanced: {}
   - id: "turning-circle-fill"
@@ -1182,7 +1182,7 @@ Layer:
         ) AS turning_circle_fill
     properties:
       minzoom: 14
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "aerialways"
     name: "aerialways"
@@ -1201,7 +1201,7 @@ Layer:
         ) AS aerialways
     properties:
       minzoom: 12
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "roads-low-zoom"
     name: "roads-low-zoom"
@@ -1260,7 +1260,7 @@ Layer:
         ) AS waterway_bridges
     properties:
       minzoom: 14
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "bridges"
     name: "bridges"
@@ -1393,7 +1393,7 @@ Layer:
     properties:
       group-by: "layernotnull"
       minzoom: 9
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "guideways"
     name: "guideways"
@@ -1411,7 +1411,7 @@ Layer:
         ) AS guideways
     properties:
       minzoom: 13
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - name: "admin-low-zoom"
     id: "admin-low-zoom"
@@ -1476,7 +1476,7 @@ Layer:
         ) AS admin_high_zoom
     properties:
       minzoom: 13
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "power-minorline"
     name: "power-minorline"
@@ -1494,7 +1494,7 @@ Layer:
         ) AS power_minorline
     properties:
       minzoom: 14
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "power-line"
     name: "power-line"
@@ -1512,7 +1512,7 @@ Layer:
         ) AS power_line
     properties:
       minzoom: 14
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "nature-reserve-boundaries"
     name: "nature-reserve-boundaries"
@@ -1535,7 +1535,7 @@ Layer:
         ) AS national_park_boundaries
     properties:
       minzoom: 7
-      maxzoom: 14
+      maxzoom: 22
       buffer-size: 10
     advanced: {}
   - id: "tourism-boundary"
@@ -1558,7 +1558,7 @@ Layer:
         ) AS tourism_boundary
     properties:
       minzoom: 10
-      maxzoom: 14
+      maxzoom: 22
       buffer-size: 16
     advanced: {}
   - id: "trees"
@@ -1582,7 +1582,7 @@ Layer:
         ) AS trees
     properties:
       minzoom: 14
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "placenames-large"
     name: "placenames-large"
@@ -1609,7 +1609,7 @@ Layer:
         ) AS placenames_large
     properties:
       minzoom: 2
-      maxzoom: 14
+      maxzoom: 22
       buffer-size: 128
     advanced: {}
   - id: "placenames-medium"
@@ -1657,7 +1657,7 @@ Layer:
         ) AS placenames_medium
     properties:
       minzoom: 4
-      maxzoom: 14
+      maxzoom: 22
       buffer-size: 128
     advanced: {}
   - id: "placenames-small"
@@ -1688,7 +1688,7 @@ Layer:
         ) AS placenames_small
     properties:
       minzoom: 12
-      maxzoom: 14
+      maxzoom: 22
       buffer-size: 128
     advanced: {}
   - id: "stations"
@@ -1718,7 +1718,7 @@ Layer:
         ) AS stations
     properties:
       minzoom: 12
-      maxzoom: 14
+      maxzoom: 22
       buffer-size: 32
     advanced: {}
   - id: "stations-poly"
@@ -1741,7 +1741,7 @@ Layer:
         ) AS stations_poly
     properties:
       minzoom: 12
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "amenity-points-poly"
     name: "amenity-points-poly"
@@ -1826,7 +1826,7 @@ Layer:
         ) AS amenity_points_poly
     properties:
       minzoom: 10
-      maxzoom: 14
+      maxzoom: 22
       buffer-size: 8
     advanced: {}
   - id: "amenity-points"
@@ -1918,7 +1918,7 @@ Layer:
           ) AS amenity_points
     properties:
       minzoom: 10
-      maxzoom: 14
+      maxzoom: 22
       buffer-size: 8
     advanced: {}
   - id: "power-towers"
@@ -1937,7 +1937,7 @@ Layer:
         ) AS power_towers
     properties:
       minzoom: 14
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "power-poles"
     name: "power-poles"
@@ -1955,7 +1955,7 @@ Layer:
         ) AS power_poles
     properties:
       minzoom: 14
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "roads-text-ref-low-zoom"
     name: "roads-text-ref-low-zoom"
@@ -2009,7 +2009,7 @@ Layer:
         ) AS junctions
     properties:
       minzoom: 11
-      maxzoom: 14
+      maxzoom: 22
       buffer-size: 32
     advanced: {}
   - id: "bridge-text"
@@ -2031,7 +2031,7 @@ Layer:
         ) AS bridge_text
     properties:
       minzoom: 11
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "roads-text-ref"
     name: "roads-text-ref"
@@ -2063,7 +2063,7 @@ Layer:
           WHERE height <= 4 AND width <= 11) AS roads_text_ref
     properties:
       minzoom: 13
-      maxzoom: 14
+      maxzoom: 22
       buffer-size: 128
     advanced: {}
   - id: "roads-area-text-name"
@@ -2087,7 +2087,7 @@ Layer:
         ) AS roads_area_text_name
     properties:
       minzoom: 14
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "roads-text-name"
     name: "roads-text-name"
@@ -2110,7 +2110,7 @@ Layer:
         ) AS roads_text_name
     properties:
       minzoom: 13
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "paths-text-name"
     name: "paths-text-name"
@@ -2131,7 +2131,7 @@ Layer:
         ) AS paths_text_name
     properties:
       minzoom: 14
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "text-poly-low-zoom"
     name: "text-poly-low-zoom"
@@ -2267,7 +2267,7 @@ Layer:
         ) AS text_poly
     properties:
       minzoom: 10
-      maxzoom: 14
+      maxzoom: 22
       buffer-size: 48
     advanced: {}
   - id: "text-line"
@@ -2298,7 +2298,7 @@ Layer:
     advanced: {}
     properties:
       minzoom: 10
-      maxzoom: 14
+      maxzoom: 22
   - id: "text-point"
     name: "text-point"
     class: "text"
@@ -2430,7 +2430,7 @@ Layer:
           ) AS text
     properties:
       minzoom: 10
-      maxzoom: 14
+      maxzoom: 22
       buffer-size: 48
     advanced: {}
   - id: "building-text"
@@ -2455,7 +2455,7 @@ Layer:
         ) AS building_text
     properties:
       minzoom: 14
-      maxzoom: 14
+      maxzoom: 22
       buffer-size: 128
     advanced: {}
   - id: "interpolation"
@@ -2474,7 +2474,7 @@ Layer:
         ) AS interpolation
     properties:
       minzoom: 14
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "housenumbers"
     name: "housenumbers"
@@ -2504,7 +2504,7 @@ Layer:
         ) AS housenumbers
     properties:
       minzoom: 14
-      maxzoom: 14
+      maxzoom: 22
       buffer-size: 32
     advanced: {}
   - id: "housenames"
@@ -2534,7 +2534,7 @@ Layer:
         ) AS housenames
     properties:
       minzoom: 14
-      maxzoom: 14
+      maxzoom: 22
       buffer-size: 32
     advanced: {}
   - id: "water-lines-text"
@@ -2561,7 +2561,7 @@ Layer:
         ) AS water_lines_text
     properties:
       minzoom: 13
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "ferry-routes-text"
     name: "ferry-routes-text"
@@ -2581,7 +2581,7 @@ Layer:
         ) AS ferry_routes_text
     properties:
       minzoom: 13
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "admin-text"
     name: "admin-text"
@@ -2604,7 +2604,7 @@ Layer:
         ) AS admin_text
     properties:
       minzoom: 14
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "nature-reserve-text"
     name: "nature-reserve-text"
@@ -2626,7 +2626,7 @@ Layer:
         ) AS nature_reserve_text
     properties:
       minzoom: 13
-      maxzoom: 14
+      maxzoom: 22
       buffer-size: 30
     advanced: {}
   - id: "amenity-low-priority"
@@ -2661,7 +2661,7 @@ Layer:
           ) AS amenity_low_priority
     properties:
       minzoom: 14
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
   - id: "amenity-low-priority-poly"
     name: "amenity-low-priority-poly"
@@ -2685,5 +2685,5 @@ Layer:
           ) AS amenity_low_priority_poly
     properties:
       minzoom: 14
-      maxzoom: 14
+      maxzoom: 22
     advanced: {}
