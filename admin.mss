@@ -177,16 +177,18 @@ overlapping borders correctly.
   text-dy: -10;
 }
 
-#nature-reserve-text[zoom >= 13][way_pixels > 192000] {
-  text-name: "[name]";
-  text-face-name: @book-fonts;
-  text-fill: green;
-  text-halo-radius: 1.0;
-  text-halo-fill: rgba(255,255,255,0.6);
-  text-placement: line;
-  text-clip: true;
-  text-vertical-alignment: middle;
-  text-dy: -10;
+#nature-reserve-text {
+  [zoom >= 13][way_pixels > 192000] {
+    text-name: "[name]";
+    text-face-name: @book-fonts;
+    text-fill: green;
+    text-halo-radius: 1.0;
+    text-halo-fill: rgba(255,255,255,0.6);
+    text-placement: line;
+    text-clip: true;
+    text-vertical-alignment: middle;
+    text-dy: -10;
+  }
 }
 
 #nature-reserve-boundaries {
