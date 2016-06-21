@@ -2551,7 +2551,7 @@ tertiary is rendered from z10 and is not included in osm_planet_roads. */
 
 #bridge-text  {
   [man_made = 'bridge'] {
-    [zoom >= 12][way_pixels > 62.5] {
+    [zoom >= 12][way_pixels > 62.5], [zoom=15][way_pixels > 15], [zoom=16][way_pixels > 3], [zoom>=17][way_pixels > 1] {
       text-name: "[name]";
       text-size: 8;
       text-fill: black;
@@ -2560,17 +2560,17 @@ tertiary is rendered from z10 and is not included in osm_planet_roads. */
       text-halo-fill: rgba(255,255,255,0.6);
       text-min-distance: 2;
       text-wrap-width: 30;
-      [way_pixels > 250] {
+      [way_pixels > 250], [zoom=15][way_pixels > 62], [zoom=16][way_pixels > 15], [zoom=17][way_pixels > 3], [zoom>=18][way_pixels > 1], {
         text-size: 9;
       }
-      [way_pixels > 1000] {
+      [way_pixels > 1000], [zoom=14][way_pixels > 1000], [zoom=15][way_pixels > 250], [zoom=16][way_pixels > 62], [zoom=17][way_pixels > 15], [zoom=18][way_pixels > 3], [zoom>=19][way_pixels > 1] {
         text-size: 11;
         text-halo-radius: 1.5;
       }
-      [way_pixels > 4000] {
+      [way_pixels > 4000], [zoom=14][way_pixels > 4000], [zoom=15][way_pixels > 1000], [zoom=16][way_pixels > 250], [zoom=17][way_pixels > 62], [zoom=18][way_pixels > 15], [zoom>=19][way_pixels > 3] {
         text-size: 12;
       }
-      [way_pixels > 16000] {
+       [way_pixels > 16000], [zoom=14][way_pixels > 16000], [zoom=15][way_pixels > 4000], [zoom=16][way_pixels > 1000], [zoom=17][way_pixels > 250], [zoom=18][way_pixels > 62], [zoom>=19][way_pixels > 15] {
         text-size: 13;
         text-halo-radius: 2;
       }
@@ -3024,6 +3024,7 @@ tertiary is rendered from z10 and is not included in osm_planet_roads. */
 
 #roads-area-text-name {
   [way_pixels > 3000],
+  [zoom=14][way_pixels > 3000], [zoom=15][way_pixels > 750], [zoom=16][way_pixels > 187]
   [zoom >= 17] {
     [zoom >= 15] {
       text-name: "[name]";

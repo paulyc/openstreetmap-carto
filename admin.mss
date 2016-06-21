@@ -178,7 +178,8 @@ overlapping borders correctly.
 }
 
 #nature-reserve-text {
-  [zoom >= 13][way_pixels > 192000] {
+  [zoom >= 13][way_pixels > 192000],
+  [zoom=14][way_pixels > 192000], [zoom=15][way_pixels > 48000], [zoom=16][way_pixels > 12000], [zoom=17][way_pixels > 3000], [zoom=18][way_pixels > 750], [zoom>=19][way_pixels > 187] {
     text-name: "[name]";
     text-face-name: @book-fonts;
     text-fill: green;
@@ -192,7 +193,8 @@ overlapping borders correctly.
 }
 
 #nature-reserve-boundaries {
-  [way_pixels > 100][zoom >= 7] {
+  [way_pixels > 100][zoom >= 7],
+  [zoom=14][way_pixels > 100], [zoom=15][way_pixels > 25], [zoom=16][way_pixels > 6], [zoom>=17][way_pixels > 1] {
     [zoom < 10] {
       ::fill {
         opacity: 0.05;
