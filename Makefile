@@ -22,6 +22,10 @@ reindexshapefiles: data/simplified-land-polygons-complete-3857/simplified_land_p
 postgresql-indexes: add-indexes.sql
 	psql -d gis -f add-indexes.sql || true
 
+postgresql-fix-geometry:
+	# TODO later versions of osm2pgsql use 4326 instead of 900913 SRS
+	psql -d gis -c "ALTER TABLE planet_osm_polygon ALTER COLUMN way TYPE geometry(MultiPolygon, 900913) USING ST_Multi(way);"
+
 install-node-modules:
 	# Bit of a hack, Don't know how to make make rely on existance of a directory
 	[ ! -d node_modules ] && npm install tessera mapnik || true
@@ -35,5 +39,7 @@ mapbox-studio-classic: buildall
 	python convert_ymls.py --input project.yaml --tm2 --source --output osm-carto.tm2/project.yml
 
 kosmtik: buildall
-	#MAPNIK_FONT_PATH=$$(find /usr/share/fonts/ -type f | sed 's|/[^/]*$$||' | uniq | paste -s -d: -)
 	python convert_ymls.py --input project.yaml --tm2 --source --output osm-carto.tm2/project.yml
+	@echo "Now run"
+	PWD=$(pwd)
+	@echo "\n    ./index.js serve ${PWD}/osm-carto.tm2/project.yml\n"
