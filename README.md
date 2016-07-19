@@ -1,3 +1,5 @@
+This is a fork of the [original OSM Carto project](https://github.com/gravitystorm/openstreetmap-carto) to support [vector tiles](https://wiki.openstreetmap.org/wiki/Vector_tiles). Consult the [README_VECTOR_TILES.md](README_VECTOR_TILES.md). Original `README.md` is below.
+
 # OpenStreetMap Carto
 
 ![screenshot](https://raw.github.com/gravitystorm/openstreetmap-carto/master/preview.png)
