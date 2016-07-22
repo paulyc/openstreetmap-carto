@@ -42,4 +42,4 @@ You will not be able to do data updates after doing this command with a standard
 
 ### More questions?
 
-Contact Rory McCann <rory@technomancy.org>
+Contact: Rory McCann <rory@technomancy.org> [@rory](https://github.com/rory/)
