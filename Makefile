@@ -20,7 +20,7 @@ osm-carto.tm2/project.yml: project.yaml
 reindexshapefiles: data/simplified-land-polygons-complete-3857/simplified_land_polygons.index data/land-polygons-split-3857/land_polygons.index data/antarctica-icesheet-polygons-3857/icesheet_polygons.index data/antarctica-icesheet-outlines-3857/icesheet_outlines.index data/ne_110m_admin_0_boundary_lines_land/ne_110m_admin_0_boundary_lines_land.index ./data/world_boundaries/builtup_area.index ./data/world_boundaries/places.index ./data/world_boundaries/world_bnd_m.index ./data/world_boundaries/world_boundaries_m.index
 
 postgresql-indexes: add-indexes.sql
-	psql -d gis -f add-indexes.sql || true
+	PGOPTIONS='--client-min-messages=fatal' psql -d gis -f add-indexes.sql || true
 
 postgresql-fix-geometry:
 	# TODO later versions of osm2pgsql use 4326 instead of 900913 SRS
@@ -41,5 +41,5 @@ mapbox-studio-classic: buildall
 kosmtik: buildall
 	python convert_ymls.py --input project.yaml --tm2 --source --output osm-carto.tm2/project.yml
 	@echo "Now run"
-	PWD=$(pwd)
+	@PWD=$(pwd)
 	@echo "\n    ./index.js serve ${PWD}/osm-carto.tm2/project.yml\n"
