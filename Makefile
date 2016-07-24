@@ -32,7 +32,7 @@ install-node-modules:
 
 tessera: install-node-modules buildall
 	python convert_ymls.py --input project.yaml --tm2 --no-source --output osm-carto.tm2/project.yml
-	MAPNIK_FONT_PATH=$$(find /usr/share/fonts/ -type f | sed 's|/[^/]*$$||' | uniq | paste -s -d: -) tessera -c tessera-serve-vector-tiles.json
+	MAPNIK_FONT_PATH=$$(find /usr/share/fonts/ -type f | sed 's|/[^/]*$$||' | uniq | paste -s -d: -) ./node_modules/.bin/tessera -c tessera-serve-vector-tiles.json
 
 mapbox-studio-classic: buildall
 	#MAPNIK_FONT_PATH=$$(find /usr/share/fonts/ -type f | sed 's|/[^/]*$$||' | uniq | paste -s -d: -)
