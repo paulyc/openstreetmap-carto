@@ -73,14 +73,7 @@ unzip $UNZIP_OPTS data/antarctica-icesheet-outlines-3857.zip \
   antarctica-icesheet-outlines-3857/icesheet_outlines.dbf \
   -d data/
 
-#index
-echo "indexing shapefiles"
-./node_modules/.bin/mapnik-shapeindex.js --shape_files \
-data/simplified-land-polygons-complete-3857/simplified_land_polygons.shp \
-data/land-polygons-split-3857/land_polygons.shp \
-data/antarctica-icesheet-polygons-3857/icesheet_polygons.shp \
-data/antarctica-icesheet-outlines-3857/icesheet_outlines.shp \
-data/ne_110m_admin_0_boundary_lines_land/ne_110m_admin_0_boundary_lines_land.shp
+#index is now done in the Makefile
 
 #finish
 echo "...done!"
