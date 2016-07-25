@@ -28,7 +28,7 @@ postgresql-fix-geometry:
 
 install-node-modules:
 	# Bit of a hack, Don't know how to make make rely on existance of a directory
-	[ ! -d node_modules ] && npm install tessera mapnik tilelive-tmsource tilelive-tmstyle tilejson tilelive-http tilelive-vector || true
+	[ ! -d node_modules ] && npm install mapnik tilelive-tmsource tilelive-tmstyle tilejson tilelive-http tilelive-vector tessera || true
 
 tessera: install-node-modules buildall
 	python convert_ymls.py --input project.yaml --tm2 --no-source --output osm-carto.tm2/project.yml
