@@ -127,7 +127,7 @@ Layer:
             FROM planet_osm_polygon
             WHERE (landuse IN ('forest', 'military')
               OR "natural" IN ('wood', 'wetland', 'mud', 'sand', 'scree', 'shingle', 'bare_rock'))
-              AND way_area > 0.01*!pixel_width!::real*!pixel_height!::real
+              AND ( ( ( !scale_denominator! < 9.55462853564704 ) AND ( way_area > 0.01*!pixel_width!::real*!pixel_height!::real ) ) OR ( !scale_denominator! >= 9.55462853564704 ) )
               AND building IS NULL
             ORDER BY CASE WHEN layer~E'^-?\\d+$' AND length(layer)<10 THEN layer::integer ELSE 0 END, way_area DESC
           ) AS features
@@ -181,7 +181,7 @@ Layer:
               OR tourism IN ('attraction', 'camp_site', 'caravan_site', 'picnic_site')
               OR highway IN ('services', 'rest_area')
               OR railway = 'station')
-              AND way_area > 0.01*!pixel_width!::real*!pixel_height!::real
+              AND ( ( ( !scale_denominator! < 9.55462853564704 ) AND ( way_area > 0.01*!pixel_width!::real*!pixel_height!::real ) ) OR ( !scale_denominator! >= 9.55462853564704 ) )
             ORDER BY CASE WHEN layer~E'^-?\\d+$' AND length(layer)<10 THEN layer::integer ELSE 0 END, way_area DESC
           ) AS landcover
         ) AS features
@@ -278,7 +278,7 @@ Layer:
               OR landuse IN ('reservoir', 'basin')
               OR "natural" IN ('water', 'glacier'))
             AND building IS NULL
-            AND way_area > 0.01*!pixel_width!::real*!pixel_height!::real
+            AND ( ( ( !scale_denominator! < 9.55462853564704 ) AND ( way_area > 0.01*!pixel_width!::real*!pixel_height!::real ) ) OR ( !scale_denominator! >= 9.55462853564704 ) )
           ORDER BY z_order, way_area DESC
         ) AS water_areas
     properties:
@@ -310,7 +310,7 @@ Layer:
           FROM planet_osm_polygon
           WHERE ("natural" IN ('marsh', 'mud', 'wetland', 'wood', 'beach', 'shoal', 'reef') OR landuse = 'forest')
             AND building IS NULL
-            AND way_area > 0.01*!pixel_width!::real*!pixel_height!::real
+            AND ( ( ( !scale_denominator! < 9.55462853564704 ) AND ( way_area > 0.01*!pixel_width!::real*!pixel_height!::real ) ) OR ( !scale_denominator! >= 9.55462853564704 ) )
           ORDER BY z_order, way_area DESC
         ) AS landcover_area_symbols
     properties:
@@ -493,7 +493,7 @@ Layer:
           FROM planet_osm_polygon
           WHERE building IS NOT NULL
             AND building != 'no'
-            AND way_area > 0.01*!pixel_width!::real*!pixel_height!::real
+            AND ( ( ( !scale_denominator! < 9.55462853564704 ) AND ( way_area > 0.01*!pixel_width!::real*!pixel_height!::real ) ) OR ( !scale_denominator! > 9.55462853564704 ) )
           ORDER BY z_order, way_area DESC
         ) AS buildings
     properties:
@@ -519,7 +519,7 @@ Layer:
           WHERE building IS NOT NULL
             AND building != 'no'
             AND (aeroway = 'terminal' OR amenity = 'place_of_worship')
-            AND way_area > 0.01*!pixel_width!::real*!pixel_height!::real
+            AND ( ( ( !scale_denominator! < 9.55462853564704 ) AND ( way_area > 0.01*!pixel_width!::real*!pixel_height!::real ) ) OR ( !scale_denominator! > 9.55462853564704 ) )
           ORDER BY z_order, way_area DESC)
         AS buildings_major
     properties:
@@ -1531,7 +1531,7 @@ Layer:
           FROM planet_osm_polygon
           WHERE (boundary = 'national_park' OR leisure = 'nature_reserve')
             AND building IS NULL
-            AND way_area > 0.01*!pixel_width!::real*!pixel_height!::real
+            AND ( ( ( !scale_denominator! < 9.55462853564704 ) AND ( way_area > 0.01*!pixel_width!::real*!pixel_height!::real ) ) OR ( !scale_denominator! > 9.55462853564704 ) )
         ) AS national_park_boundaries
     properties:
       minzoom: 7
