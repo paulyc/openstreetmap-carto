@@ -23,7 +23,7 @@ postgresql-indexes: add-indexes.sql
 	PGOPTIONS='--client-min-messages=fatal' psql -d gis -f add-indexes.sql || true
 
 postgresql-fix-geometry:
-	# TODO later versions of osm2pgsql use 4326 instead of 900913 SRS
+	# TODO later versions of osm2pgsql use 3857 instead of 900913 SRS
 	psql -d gis -c "ALTER TABLE planet_osm_polygon ALTER COLUMN way TYPE geometry(MultiPolygon, 900913) USING ST_Multi(way);"
 
 install-node-modules:
