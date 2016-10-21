@@ -53,6 +53,15 @@ create index idx_amenity_low_priority_poly on planet_osm_polygon using gist (way
 create index idx_bridge on planet_osm_polygon using gist (way) where man_made = 'bridge';
 create index idx_building_text on planet_osm_polygon using gist (way) where ((building IS NOT NULL) AND (name IS NOT NULL) AND (building <> 'no'::text));
 create index idx_marinas_areas on planet_osm_polygon using gist (way) where (leisure = 'marina'::text);
+CREATE INDEX planet_osm_polygon_idx25865159 ON planet_osm_polygon USING GIST (way) WHERE (((waterway = ANY ('{dock,riverbank,canal}'::text[])) OR (landuse = ANY ('{reservoir,basin}'::text[])) OR ("natural" = ANY ('{water,glacier}'::text[]))) AND (building IS NULL));
+CREATE INDEX planet_osm_roads_idx84878428 ON planet_osm_roads USING GIST (way) WHERE (osm_id < 0);
+CREATE INDEX planet_osm_roads_idx30052465 ON planet_osm_roads USING GIST (way) WHERE (((highway IS NOT NULL) OR ((railway IS NOT NULL) AND (railway <> 'preserved'::text) AND ((service IS NULL) OR (service <> ALL ('{spur,siding,yard}'::text[]))))));
+CREATE INDEX planet_osm_polygon_idx36529334 ON planet_osm_polygon USING GIST (way) WHERE (((landuse = ANY ('{forest,military}'::text[])) OR ("natural" = ANY ('{wood,wetland,mud,sand,scree,shingle,bare_rock}'::text[]))) AND (building IS NULL));
+CREATE INDEX planet_osm_line_idx75788837 ON planet_osm_line USING GIST (way) WHERE ((highway IS NOT NULL) AND ((tunnel IS NULL) OR (tunnel <> ALL ('{yes,building_passage}'::text[]))) AND ((covered IS NULL) OR (covered <> 'yes'::text)) AND ((bridge IS NULL) OR (bridge <> ALL ('{yes,boardwalk,cantilever,covered,low_water_crossing,movable,trestle,viaduct}'::text[]))));
+CREATE INDEX planet_osm_line_idx65184745 ON planet_osm_line USING GIST (way) WHERE (((railway IS NOT NULL) OR (aeroway IS NOT NULL)) AND ((tunnel IS NULL) OR (tunnel <> ALL ('{yes,building_passage}'::text[]))) AND ((covered IS NULL) OR (covered <> 'yes'::text)) AND ((bridge IS NULL) OR (bridge <> ALL ('{yes,boardwalk,cantilever,covered,low_water_crossing,movable,trestle,viaduct}'::text[]))));
+CREATE INDEX planet_osm_point_idx33358098 ON planet_osm_point USING GIST (way) WHERE (("addr:housenumber" IS NOT NULL) OR ("addr:housename" IS NOT NULL));
+CREATE INDEX planet_osm_polygon_idx10416420 ON planet_osm_polygon USING GIST (way) WHERE ((building IS NOT NULL) AND (("addr:housenumber" IS NOT NULL) OR ("addr:housename" IS NOT NULL)));
+
 
 
 
