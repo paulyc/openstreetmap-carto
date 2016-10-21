@@ -2061,7 +2061,7 @@ Layer:
       geometry_table: planet_osm_point
       table: |-
         (SELECT
-            ST_Centroid(way) as way,
+            way,
             highway,
             junction,
             ref,
@@ -2576,7 +2576,7 @@ Layer:
             AND way && !bbox!
         UNION ALL
         SELECT
-            ST_Centroid(way) as way,
+            way,
             "addr:housenumber" AS addr_housenumber,
             "addr:housename" AS addr_housename,
             NULL AS way_pixels
