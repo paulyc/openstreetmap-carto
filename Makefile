@@ -43,3 +43,8 @@ kosmtik: buildall
 	@echo "Now run"
 	@PWD=$(pwd)
 	@echo "\n    ./index.js serve ${PWD}/osm-carto.tm2/project.yml\n"
+
+clean:
+	rmdir osm-carto.tm2/data/ || true
+	rm -f osm-carto.tm2/*
+	rm -f osm-carto.tm2source/*
