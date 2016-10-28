@@ -10,7 +10,7 @@ osm-carto.tm2source/data.yml: project.yaml
 osm-carto.tm2/project.yml: project.yaml
 	python convert_ymls.py --input project.yaml --tm2 --output osm-carto.tm2/project.yml
 	
-	ln -s ../symbols/ ./osm-carto.tm2/ 2>/dev/null || true
+	ln -s `pwd`/symbols/ ./osm-carto.tm2/ 2>/dev/null || true
 	cd ./osm-carto.tm2/ && ln -s ../*mss ./ 2>/dev/null || true
 
 
