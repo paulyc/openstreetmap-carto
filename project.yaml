@@ -464,7 +464,7 @@ Layer:
           WHERE waterway IN ('dam', 'weir', 'lock_gate')
         ) AS water_barriers_points
     properties:
-      minzoom: 14
+      minzoom: 17
       maxzoom: 22
     advanced: {}
   - id: "bridge"
@@ -761,7 +761,7 @@ Layer:
           ) AS features
         ) AS area_barriers
     properties:
-      minzoom: 14
+      minzoom: 16
       maxzoom: 22
     advanced: {}
   - id: "ferry-routes"
@@ -812,7 +812,7 @@ Layer:
           ORDER BY p.way, v.prio
         ) AS turning_circle_casing
     properties:
-      minzoom: 14
+      minzoom: 15
       maxzoom: 22
     advanced: {}
   - id: "highway-area-casing"
@@ -1183,7 +1183,7 @@ Layer:
           ORDER BY p.way, v.prio
         ) AS turning_circle_fill
     properties:
-      minzoom: 14
+      minzoom: 15
       maxzoom: 22
     advanced: {}
   - id: "aerialways"
@@ -1261,7 +1261,7 @@ Layer:
           ORDER BY z_order
         ) AS waterway_bridges
     properties:
-      minzoom: 14
+      minzoom: 15
       maxzoom: 22
     advanced: {}
   - id: "bridges"
@@ -1500,7 +1500,7 @@ Layer:
           WHERE power = 'minor_line'
         ) AS power_minorline
     properties:
-      minzoom: 14
+      minzoom: 16
       maxzoom: 22
     advanced: {}
   - id: "power-line"
@@ -1588,7 +1588,7 @@ Layer:
           WHERE "natural" = 'tree_row'
         ) AS trees
     properties:
-      minzoom: 14
+      minzoom: 16
       maxzoom: 22
     advanced: {}
   - id: "country-names"
@@ -1989,7 +1989,7 @@ Layer:
           WHERE power = 'pole'
         ) AS power_poles
     properties:
-      minzoom: 14
+      minzoom: 16
       maxzoom: 22
     advanced: {}
   - id: "roads-text-ref-low-zoom"
@@ -2133,7 +2133,7 @@ Layer:
             AND name IS NOT NULL
         ) AS roads_area_text_name
     properties:
-      minzoom: 14
+      minzoom: 15
       maxzoom: 22
     advanced: {}
   - id: "roads-text-name"
@@ -2186,7 +2186,7 @@ Layer:
             AND name IS NOT NULL
         ) AS paths_text_name
     properties:
-      minzoom: 14
+      minzoom: 15
       maxzoom: 22
     advanced: {}
   - id: "text-poly-low-zoom"
@@ -2505,7 +2505,7 @@ Layer:
           WHERE "addr:interpolation" IS NOT NULL
         ) AS interpolation
     properties:
-      minzoom: 14
+      minzoom: 17
       maxzoom: 22
     advanced: {}
   - id: "addresses"
@@ -2537,7 +2537,7 @@ Layer:
           ORDER BY way_pixels DESC NULLS LAST
         ) AS addresses
     properties:
-      minzoom: 14
+      minzoom: 17
       maxzoom: 22
       buffer-size: 32
     advanced: {}
@@ -2607,7 +2607,7 @@ Layer:
           ORDER BY admin_level::integer ASC, way_area DESC
         ) AS admin_text
     properties:
-      minzoom: 14
+      minzoom: 16
       maxzoom: 22
     advanced: {}
   - id: "nature-reserve-text"
