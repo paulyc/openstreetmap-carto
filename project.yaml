@@ -2533,7 +2533,7 @@ Layer:
             "addr:housename" AS addr_housename,
             NULL AS way_pixels
           FROM planet_osm_point
-          WHERE (("addr:housenumber" IS NOT NULL) OR ("addr:housename" IS NOT NULL) AND way && !bbox!)
+          WHERE ((("addr:housenumber" IS NOT NULL) OR ("addr:housename" IS NOT NULL)) AND way && !bbox!)
           ORDER BY way_pixels DESC NULLS LAST
         ) AS addresses
     properties:
