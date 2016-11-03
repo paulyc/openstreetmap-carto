@@ -6,6 +6,8 @@ parser.add_argument("-o", "--output")
 parser.add_argument("--tm2", "--tm", action="store_const", const="tm2", dest="action")
 parser.add_argument("--tm2source", "--tmsource", action="store_const", const="tm2source", dest="action")
 
+parser.add_argument("--zoom", default="14", help="Last zoom in the vector tile, default 14")
+
 parser.add_argument("--source", action="store_true", dest="source")
 parser.add_argument("--no-source", action="store_false", dest="source")
 
@@ -26,9 +28,14 @@ if args.action == 'tm2':
         projectfile['source'] = "tmsource://{}/osm-carto.tm2source/".format(cwd)
 
 elif args.action == 'tm2source':
-    projectfile['maxzoom'] = 14
     del projectfile['source']
     del projectfile['styles']
+
+    zoom = int(args.zoom)
+    projectfile['maxzoom'] = zoom
+    for layer in projectfile['Layer']:
+        if layer['properties'].get('minzoom', 22) > zoom:
+            layer['properties']['minzoom'] = zoom
 else:
     raise NotImplementedError()
 

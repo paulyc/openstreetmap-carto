@@ -3,7 +3,7 @@ all: buildall
 buildall: reindexshapefiles postgresql-indexes osm-carto.tm2source/data.yml osm-carto.tm2/project.yml
 
 osm-carto.tm2source/data.yml: project.yaml
-	python convert_ymls.py --input project.yaml --tm2source --output osm-carto.tm2source/data.yml
+	python convert_ymls.py --input project.yaml --tm2source --zoom 14 --output osm-carto.tm2source/data.yml
 	
 	ln -s ../data/ ./osm-carto.tm2source/ 2> /dev/null || true
 
