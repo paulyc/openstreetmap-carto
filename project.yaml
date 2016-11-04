@@ -1601,7 +1601,7 @@ Layer:
       geometry_table: planet_osm_point  # to ensure it gets a POINT back, not a POLYGON
       table: |-
         (SELECT
-            ST_Centroid(way) as way,
+            ST_Centroid(ST_Envelope(way)) as way,
             way_area/NULLIF(!pixel_width!::real*!pixel_height!::real,0) AS way_pixels,
             name
           FROM planet_osm_polygon
@@ -1807,7 +1807,7 @@ Layer:
       geometry_table: planet_osm_point      # hack to ensure result is POINT not POLYGON
       table: |-
         (SELECT
-            ST_Centroid(way) as way,
+            ST_Centroid(ST_Envelope(way)) as way,
             COALESCE(
               'aeroway_' || CASE WHEN aeroway IN ('helipad', 'aerodrome') THEN aeroway ELSE NULL END,
               'tourism_' || CASE WHEN tourism IN ('artwork', 'alpine_hut', 'camp_site', 'caravan_site', 'chalet', 'guest_house', 
@@ -2199,7 +2199,7 @@ Layer:
       geometry_table: planet_osm_point      # hack to get POINT result
       table: |-
         (SELECT
-            ST_Centroid(way) as way,
+            ST_Centroid(ST_Envelope(way)) as way,
             way_area/NULLIF(!pixel_width!::real*!pixel_height!::real,0) AS way_pixels,
             COALESCE(
               'landuse_' || CASE WHEN landuse IN ('forest', 'military') THEN landuse ELSE NULL END,
@@ -2238,7 +2238,7 @@ Layer:
       # see https://github.com/gravitystorm/openstreetmap-carto/pull/1349#issuecomment-77805678
       table: |-
         (SELECT
-            ST_Centroid(way) as way,
+            ST_Centroid(ST_Envelope(way)) as way,
             way_area/NULLIF(!pixel_width!::real*!pixel_height!::real,0) AS way_pixels,
             COALESCE(
               'aeroway_' || CASE WHEN aeroway IN ('gate', 'apron', 'helipad', 'aerodrome') THEN aeroway ELSE NULL END,
@@ -2476,7 +2476,7 @@ Layer:
       table: |-
         (SELECT
             name,
-            ST_Centroid(way) as way,
+            ST_Centroid(ST_Envelope(way)) as way,
             way_area/NULLIF(!pixel_width!::real*!pixel_height!::real,0) AS way_pixels
           FROM planet_osm_polygon
           WHERE building IS NOT NULL
@@ -2518,7 +2518,7 @@ Layer:
       geometry_table: planet_osm_point      # hack to get POINT returned
       table: |-
         (SELECT
-            ST_Centroid(way) as way,
+            ST_Centroid(ST_Envelope(way)) as way,
             "addr:housenumber" AS addr_housenumber,
             "addr:housename" AS addr_housename,
             way_area/NULLIF(!pixel_width!::real*!pixel_height!::real,0) AS way_pixels
@@ -2620,7 +2620,7 @@ Layer:
       geometry_table: planet_osm_polygon
       table: |-
         (SELECT
-            ST_Centroid(way) as way,
+            ST_Centroid(ST_Envelope(way)) as way,
             name,
             way_area/NULLIF(!pixel_width!::real*!pixel_height!::real,0) AS way_pixels
           FROM planet_osm_polygon
