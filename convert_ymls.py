@@ -34,7 +34,11 @@ elif args.action == 'tm2source':
     zoom = int(args.zoom)
     projectfile['maxzoom'] = zoom
     for layer in projectfile['Layer']:
-        if layer['properties'].get('minzoom', 22) > zoom:
+        # If the maxzoom is less than the minzoom, don't do anything
+        # This can happen for a generic land polygon shapefile, which has
+        # maxzoom: 9. If you include a minzoom: 14 in that layer, then that
+        # layer won't show up from 0-9, i.e. it won't show up at all.
+        if layer['properties'].get('minzoom', 22) > zoom and layer['properties'].get('maxzoom', 22) >= zoom:
             layer['properties']['minzoom'] = zoom
 else:
     raise NotImplementedError()
