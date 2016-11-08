@@ -1641,6 +1641,7 @@ Layer:
     properties:
       minzoom: 3
       maxzoom: 15
+      buffer-size: 128
     advanced: {}
   - id: "state-names"
     name: "state-names"
@@ -1664,6 +1665,7 @@ Layer:
         ) AS state_names
     properties:
       minzoom: 4
+      buffer-size: 128
     advanced: {}
   - id: "placenames-medium"
     name: "placenames-medium"
