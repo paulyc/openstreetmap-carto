@@ -1,73 +1,120 @@
-CREATE UNIQUE INDEX planet_osm_nodes_pkey ON planet_osm_nodes USING btree (id);
-CREATE UNIQUE INDEX planet_osm_ways_pkey ON planet_osm_ways USING btree (id);
-CREATE INDEX planet_osm_ways_idx ON planet_osm_ways USING btree (id) WHERE pending;
-CREATE UNIQUE INDEX planet_osm_rels_pkey ON planet_osm_rels USING btree (id);
-CREATE INDEX planet_osm_rels_idx ON planet_osm_rels USING btree (id) WHERE pending;
-CREATE INDEX planet_osm_ways_nodes ON planet_osm_ways USING gin (nodes) WITH (fastupdate=off);
-CREATE INDEX planet_osm_rels_parts ON planet_osm_rels USING gin (parts) WITH (fastupdate=off);
-CREATE INDEX planet_osm_line_index ON planet_osm_line USING gist (way);
-CREATE INDEX planet_osm_line_pkey ON planet_osm_line USING btree (osm_id);
-CREATE INDEX planet_osm_polygon_pkey ON planet_osm_polygon USING btree (osm_id);
-CREATE INDEX planet_osm_roads_index ON planet_osm_roads USING gist (way);
-CREATE INDEX planet_osm_roads_pkey ON planet_osm_roads USING btree (osm_id);
-CREATE INDEX planet_osm_point_index ON planet_osm_point USING gist (way);
-CREATE INDEX planet_osm_point_pkey ON planet_osm_point USING btree (osm_id);
-CREATE INDEX planet_osm_line__waterway__river ON planet_osm_line USING gist (way) WHERE (waterway = 'river'::text);
-CREATE INDEX idx_rail_aero ON planet_osm_line USING gist (way) WHERE ((((tunnel = 'yes'::text) OR (tunnel = 'building_passage'::text)) OR (covered = 'yes'::text)) AND ((railway IS NOT NULL) OR (aeroway IS NOT NULL)));
-CREATE INDEX idx_road_select ON planet_osm_line USING gist (way) WHERE ((((tunnel = 'yes'::text) OR (tunnel = 'building_passage'::text)) OR (covered = 'yes'::text)) AND (highway IS NOT NULL));
-CREATE INDEX idx_city_town ON planet_osm_point USING gist (way) WHERE (place = ANY ('{city,town}'::text[]));
-CREATE INDEX idx_populations ON planet_osm_point USING btree (((
-CASE
-    WHEN (population ~ '^[0-9]{1,8}$'::text) THEN (population)::integer
-    WHEN (place = 'city'::text) THEN 100000
-    WHEN (place = 'town'::text) THEN 1000
-    ELSE 1
-END *
-CASE
-    WHEN (capital = 'yes'::text) THEN 3
-    WHEN (capital = '4'::text) THEN 2
-    ELSE 1
-END)));
-CREATE INDEX idx_ferry ON planet_osm_line USING gist (way) WHERE (route = 'ferry'::text);
-CREATE INDEX idx_road_casings1 ON planet_osm_line USING gist (way) WHERE ((((highway IS NOT NULL) AND ((tunnel IS NULL) OR (tunnel <> ALL ('{yes,building_passage}'::text[])))) AND ((covered IS NULL) OR (covered <> 'yes'::text))) AND ((bridge IS NULL) OR (bridge <> ALL ('{yes,boardwalk,cantilever,covered,low_water_crossing,movable,trestle,viaduct}'::text[]))));
-CREATE INDEX idx_road_casings2 ON planet_osm_line USING gist (way) WHERE (((((railway IS NOT NULL) OR (aeroway IS NOT NULL)) AND ((tunnel IS NULL) OR (tunnel <> ALL ('{yes,building_passage}'::text[])))) AND ((covered IS NULL) OR (covered <> 'yes'::text))) AND ((bridge IS NULL) OR (bridge <> ALL ('{yes,boardwalk,cantilever,covered,low_water_crossing,movable,trestle,viaduct}'::text[]))));
-CREATE INDEX id_land_cover_low_zoom_sort ON planet_osm_polygon USING btree ((
-CASE
-    WHEN ((layer ~ '^-?\d+$'::text) AND (length(layer) < 10)) THEN (layer)::integer
-    ELSE 0
-END), way_area);
-CREATE INDEX idx_highway_area_casing ON planet_osm_polygon USING gist (way) WHERE ((highway = ANY ('{residential,unclassified,pedestrian,service,footway,track,path,platform}'::text[])) OR (railway = 'platform'::text));
-CREATE INDEX idx_buildings_major ON planet_osm_polygon USING gist (way) WHERE ((((building IS NOT NULL) AND (building <> 'no'::text)) AND (way_area > (0)::double precision)) AND ((aeroway = 'terminal'::text) OR (amenity = 'place_of_worship'::text)));
-CREATE INDEX idx_landcover_area_symbols ON planet_osm_polygon USING gist (way) WHERE (((building IS NULL) AND (way_area > (0)::double precision)) AND (("natural" = ANY ('{marsh,mud,wetland,wood,beach,shoal,reef}'::text[])) OR (landuse = 'forest'::text)));
-CREATE INDEX idx_text_poly ON planet_osm_polygon USING gist (way) WHERE ((((((((((((((((aeroway = ANY (ARRAY['gate'::text, 'apron'::text, 'helipad'::text, 'aerodrome'::text])) OR (tourism = ANY (ARRAY['alpine_hut'::text, 'hotel'::text, 'motel'::text, 'hostel'::text, 'chalet'::text, 'guest_house'::text, 'camp_site'::text, 'caravan_site'::text, 'theme_park'::text, 'museum'::text, 'attraction'::text, 'zoo'::text, 'information'::text, 'picnic_site'::text]))) OR (amenity IS NOT NULL)) OR (shop IS NOT NULL)) OR (leisure IS NOT NULL)) OR (landuse IS NOT NULL)) OR (man_made = ANY (ARRAY['lighthouse'::text, 'windmill'::text, 'mast'::text, 'water_tower'::text, 'pier'::text, 'breakwater'::text, 'groyne'::text]))) OR ("natural" IS NOT NULL)) OR (place = ANY (ARRAY['island'::text, 'islet'::text]))) OR (military = 'danger_area'::text)) OR (historic = ANY (ARRAY['memorial'::text, 'monument'::text, 'archaeological_site'::text]))) OR (highway = ANY (ARRAY['services'::text, 'rest_area'::text, 'bus_stop'::text, 'elevator'::text, 'ford'::text]))) OR (power = ANY (ARRAY['plant'::text, 'station'::text, 'generator'::text, 'sub_station'::text, 'substation'::text]))) OR (boundary = 'national_park'::text)) OR (waterway = 'dam'::text)) AND (name IS NOT NULL));
-CREATE INDEX idx_landcover_low_zoom ON planet_osm_polygon USING gist (way) WHERE (((landuse = ANY (ARRAY['forest'::text, 'military'::text])) OR ("natural" = ANY (ARRAY['wood'::text, 'wetland'::text, 'mud'::text, 'sand'::text, 'scree'::text, 'shingle'::text, 'bare_rock'::text]))) AND (building IS NULL));
-CREATE INDEX idx_text_poly_low_zoom ON planet_osm_polygon USING gist (way) WHERE (((((((landuse = ANY (ARRAY['forest'::text, 'military'::text])) OR ("natural" = ANY (ARRAY['wood'::text, 'glacier'::text, 'sand'::text, 'scree'::text, 'shingle'::text, 'bare_rock'::text]))) OR (place = 'island'::text)) OR (boundary = 'national_park'::text)) OR (leisure = 'nature_reserve'::text)) AND (building IS NULL)) AND (name IS NOT NULL));
-CREATE INDEX idx_admins ON planet_osm_polygon USING gist (way) WHERE (((boundary = 'administrative'::text) AND (admin_level = ANY (ARRAY['2'::text, '4'::text]))) AND (name IS NOT NULL));
-CREATE INDEX idx_water_areas ON planet_osm_polygon USING gist (way) WHERE ((((waterway = ANY (ARRAY['dock'::text, 'riverbank'::text, 'canal'::text])) OR (landuse = ANY (ARRAY['reservoir'::text, 'basin'::text]))) OR ("natural" = ANY (ARRAY['water'::text, 'glacier'::text]))) AND (building IS NULL));
-create index idx_admin_text on planet_osm_polygon using gist (st_boundary(way)) where ((name IS NOT NULL) AND (boundary = 'administrative'::text)  AND (admin_level = ANY ('{0,1,2,3,4,5,6,7,8,9,10}'::text[])));
-create index idx_area_barriers on planet_osm_polygon using gist (way) where (barrier is null);
-create index idx_area_barriers_not_null on planet_osm_polygon using gist (way) where (barrier is not null);
-create index idx_housenames_polygon on planet_osm_polygon using gist (way) where (("addr:housename" IS NOT NULL) AND (building IS NOT NULL) ); create index idx_housenames_point on planet_osm_point using gist (way) where ("addr:housename" IS NOT NULL); create index idx_housenumber_polygon on planet_osm_polygon using gist (way) where (("addr:housenumber" IS NOT NULL) AND (building IS NOT NULL) ); create index idx_housenumber_point on planet_osm_point using gist (way) where ("addr:housenumber" IS NOT NULL);
-create index idx_way_area on planet_osm_polygon (way_area);
-create index idx_amenity_low_priority_poly on planet_osm_polygon using gist (way) where ((barrier = ANY ('{bollard,gate,lift_gate,swing_gate,block}'::text[])) OR (highway = 'mini_roundabout'::text) OR (railway = 'level_crossing'::text) OR (amenity = ANY ('{parking,bicycle_parking,motorcycle_parking}'::text[])));
-create index idx_bridge on planet_osm_polygon using gist (way) where man_made = 'bridge';
-create index idx_building_text on planet_osm_polygon using gist (way) where ((building IS NOT NULL) AND (name IS NOT NULL) AND (building <> 'no'::text));
-create index idx_marinas_areas on planet_osm_polygon using gist (way) where (leisure = 'marina'::text);
-CREATE INDEX planet_osm_polygon_idx25865159 ON planet_osm_polygon USING GIST (way) WHERE (((waterway = ANY ('{dock,riverbank,canal}'::text[])) OR (landuse = ANY ('{reservoir,basin}'::text[])) OR ("natural" = ANY ('{water,glacier}'::text[]))) AND (building IS NULL));
+CREATE INDEX planet_osm_polygon_idx65845270 ON planet_osm_polygon USING GIST (way) WHERE ((way_area > '38290272569.7422'::double precision) AND (admin_level = '2'::text));
 CREATE INDEX planet_osm_roads_idx84878428 ON planet_osm_roads USING GIST (way) WHERE (osm_id < 0);
-CREATE INDEX planet_osm_roads_idx30052465 ON planet_osm_roads USING GIST (way) WHERE (((highway IS NOT NULL) OR ((railway IS NOT NULL) AND (railway <> 'preserved'::text) AND ((service IS NULL) OR (service <> ALL ('{spur,siding,yard}'::text[]))))));
+CREATE INDEX planet_osm_polygon_idx84396580 ON planet_osm_polygon USING GIST (way) WHERE ((way_area > '9572549033.16736'::double precision) AND (admin_level = '2'::text));
+CREATE INDEX planet_osm_point_idx21150974 ON planet_osm_point USING GIST (way) WHERE ((place = ANY ('{city,town}'::text[])));
+CREATE INDEX planet_osm_polygon_idx55858859 ON planet_osm_polygon USING GIST (way) WHERE ((way_area > '9572549033.16736'::double precision) AND (admin_level = '4'::text));
+CREATE INDEX planet_osm_polygon_idx45748301 ON planet_osm_polygon USING GIST (way) WHERE (((waterway = ANY ('{dock,riverbank,canal}'::text[])) OR (landuse = ANY ('{reservoir,basin}'::text[])) OR ("natural" = ANY ('{water,glacier}'::text[]))) AND (building IS NULL) AND (way_area > '59828.1806485391'::double precision));
+CREATE INDEX planet_osm_polygon_idx83435690 ON planet_osm_polygon USING GIST (way) WHERE (((waterway = ANY ('{dock,riverbank,canal}'::text[])) OR (landuse = ANY ('{reservoir,basin}'::text[])) OR ("natural" = ANY ('{water,glacier}'::text[]))) AND (building IS NULL) AND (way_area > '14957.0451621348'::double precision));
+CREATE INDEX planet_osm_polygon_idx69960677 ON planet_osm_polygon USING GIST (way) WHERE (((landuse = ANY ('{forest,military}'::text[])) OR ("natural" = ANY ('{wood,wetland,mud,sand,scree,shingle,bare_rock}'::text[]))) AND (building IS NULL) AND (way_area > '3739.27323380485'::double precision));
+CREATE INDEX planet_osm_line_idx97792392 ON planet_osm_line USING GIST (way) WHERE ((waterway = 'river'::text));
+CREATE INDEX planet_osm_polygon_idx70536805 ON planet_osm_polygon USING GIST (way) WHERE (((waterway = ANY ('{dock,riverbank,canal}'::text[])) OR (landuse = ANY ('{reservoir,basin}'::text[])) OR ("natural" = ANY ('{water,glacier}'::text[]))) AND (building IS NULL) AND (way_area > '3739.27323380485'::double precision));
 CREATE INDEX planet_osm_polygon_idx36529334 ON planet_osm_polygon USING GIST (way) WHERE (((landuse = ANY ('{forest,military}'::text[])) OR ("natural" = ANY ('{wood,wetland,mud,sand,scree,shingle,bare_rock}'::text[]))) AND (building IS NULL));
+CREATE INDEX planet_osm_line_idx58361478 ON planet_osm_line USING GIST (way) WHERE ((route = 'ferry'::text));
+CREATE INDEX planet_osm_roads_idx30052465 ON planet_osm_roads USING GIST (way) WHERE (((highway IS NOT NULL) OR ((railway IS NOT NULL) AND (railway <> 'preserved'::text) AND ((service IS NULL) OR (service <> ALL ('{spur,siding,yard}'::text[]))))));
+CREATE INDEX planet_osm_polygon_idx34219889 ON planet_osm_polygon USING GIST (way) WHERE ((way_area > '2393137258.29184'::double precision) AND (admin_level = '2'::text));
+CREATE INDEX planet_osm_polygon_idx80400228 ON planet_osm_polygon USING GIST (way) WHERE ((way_area > '2393137258.29184'::double precision) AND (admin_level = '4'::text));
+CREATE INDEX planet_osm_polygon_idx25865159 ON planet_osm_polygon USING GIST (way) WHERE (((waterway = ANY ('{dock,riverbank,canal}'::text[])) OR (landuse = ANY ('{reservoir,basin}'::text[])) OR ("natural" = ANY ('{water,glacier}'::text[]))) AND (building IS NULL));
+CREATE INDEX planet_osm_line_idx62529281 ON planet_osm_line USING GIST (way) WHERE (((tunnel = 'yes'::text) OR (tunnel = 'building_passage'::text) OR (covered = 'yes'::text)) AND (highway IS NOT NULL));
+CREATE INDEX planet_osm_polygon_idx48229803 ON planet_osm_polygon USING GIST (way) WHERE ((way_area > '598281806.485391'::double precision) AND (admin_level = '2'::text));
+CREATE INDEX planet_osm_polygon_idx26916844 ON planet_osm_polygon USING GIST (way) WHERE ((way_area > '598281806.485391'::double precision) AND (admin_level = '4'::text));
 CREATE INDEX planet_osm_line_idx75788837 ON planet_osm_line USING GIST (way) WHERE ((highway IS NOT NULL) AND ((tunnel IS NULL) OR (tunnel <> ALL ('{yes,building_passage}'::text[]))) AND ((covered IS NULL) OR (covered <> 'yes'::text)) AND ((bridge IS NULL) OR (bridge <> ALL ('{yes,boardwalk,cantilever,covered,low_water_crossing,movable,trestle,viaduct}'::text[]))));
 CREATE INDEX planet_osm_line_idx65184745 ON planet_osm_line USING GIST (way) WHERE (((railway IS NOT NULL) OR (aeroway IS NOT NULL)) AND ((tunnel IS NULL) OR (tunnel <> ALL ('{yes,building_passage}'::text[]))) AND ((covered IS NULL) OR (covered <> 'yes'::text)) AND ((bridge IS NULL) OR (bridge <> ALL ('{yes,boardwalk,cantilever,covered,low_water_crossing,movable,trestle,viaduct}'::text[]))));
-CREATE INDEX planet_osm_point_idx33358098 ON planet_osm_point USING GIST (way) WHERE (("addr:housenumber" IS NOT NULL) OR ("addr:housename" IS NOT NULL));
-CREATE INDEX planet_osm_polygon_idx10416420 ON planet_osm_polygon USING GIST (way) WHERE ((building IS NOT NULL) AND (("addr:housenumber" IS NOT NULL) OR ("addr:housename" IS NOT NULL)));
-
-
-
-
-
-
--- After adding the indexes, analyze the tables
-analyze planet_osm_point;
-analyze planet_osm_line;
-analyze planet_osm_polygon;
+CREATE INDEX planet_osm_polygon_idx24215191 ON planet_osm_polygon USING GIST (way) WHERE (way_area > '3739.27323380485'::double precision);
+CREATE INDEX planet_osm_polygon_idx59636949 ON planet_osm_polygon USING GIST (way) WHERE ((building IS NULL) AND (way_area > '0'::double precision) AND (("natural" = ANY ('{marsh,mud,wetland,wood,beach,shoal,reef}'::text[])) OR (landuse = 'forest'::text)));
+CREATE INDEX planet_osm_roads_idx62708780 ON planet_osm_roads USING GIST (way) WHERE ((osm_id < 0));
+CREATE INDEX planet_osm_polygon_idx90392038 ON planet_osm_polygon USING GIST (way) WHERE (way_area > '14957.0451621348'::double precision);
+CREATE INDEX planet_osm_polygon_idx48348918 ON planet_osm_polygon USING GIST (way) WHERE ((way_area > '37392732.3380485'::double precision) AND (admin_level = '2'::text));
+CREATE INDEX planet_osm_polygon_idx50902585 ON planet_osm_polygon USING GIST (way) WHERE ((way_area > '37392732.3380485'::double precision) AND (admin_level = '4'::text));
+CREATE INDEX planet_osm_polygon_idx99787506 ON planet_osm_polygon USING GIST (way) WHERE (((landuse = ANY ('{forest,military}'::text[])) OR ("natural" = ANY ('{wood,glacier,sand,scree,shingle,bare_rock}'::text[])) OR (place = 'island'::text) OR (boundary = 'national_park'::text) OR (leisure = 'nature_reserve'::text)) AND (building IS NULL) AND (name IS NOT NULL));
+CREATE INDEX planet_osm_polygon_idx46555563 ON planet_osm_polygon USING GIST (way) WHERE ((way_area > '149570451.621348'::double precision) AND (admin_level = '2'::text));
+CREATE INDEX planet_osm_polygon_idx26680449 ON planet_osm_polygon USING GIST (way) WHERE ((way_area > '149570451.621348'::double precision) AND (admin_level = '4'::text));
+CREATE INDEX planet_osm_polygon_idx42143381 ON planet_osm_polygon USING GIST (way) WHERE (way_area > '934.818308451213'::double precision);
+CREATE INDEX planet_osm_polygon_idx20679934 ON planet_osm_polygon USING GIST (way) WHERE ((way_area > '2337045.77112803'::double precision) AND (admin_level = '2'::text));
+CREATE INDEX planet_osm_polygon_idx35288898 ON planet_osm_polygon USING GIST (way) WHERE ((way_area > '2337045.77112803'::double precision) AND (admin_level = '4'::text));
+CREATE INDEX planet_osm_polygon_idx70511814 ON planet_osm_polygon USING GIST (way) WHERE ((way_area > '9348183.08451213'::double precision) AND (admin_level = '2'::text));
+CREATE INDEX planet_osm_polygon_idx83984810 ON planet_osm_polygon USING GIST (way) WHERE ((way_area > '9348183.08451213'::double precision) AND (admin_level = '4'::text));
+CREATE INDEX planet_osm_polygon_idx51302852 ON planet_osm_polygon USING GIST (way) WHERE ((way_area > '146065.360695502'::double precision) AND (admin_level = '2'::text));
+CREATE INDEX planet_osm_polygon_idx51345361 ON planet_osm_polygon USING GIST (way) WHERE ((way_area > '146065.360695502'::double precision) AND (admin_level = '4'::text));
+CREATE INDEX planet_osm_polygon_idx10065261 ON planet_osm_polygon USING GIST (way) WHERE ((way_area > '584261.442782008'::double precision) AND (admin_level = '2'::text));
+CREATE INDEX planet_osm_polygon_idx51720357 ON planet_osm_polygon USING GIST (way) WHERE ((way_area > '584261.442782008'::double precision) AND (admin_level = '4'::text));
+CREATE INDEX planet_osm_polygon_idx15674379 ON planet_osm_polygon USING GIST (way) WHERE ((building IS NOT NULL) AND (building <> 'no'::text) AND (way_area > '0'::double precision) AND ((aeroway = 'terminal'::text) OR (amenity = 'place_of_worship'::text)));
+CREATE INDEX planet_osm_polygon_idx72962957 ON planet_osm_polygon USING GIST (way) WHERE ((way_area > '36516.5369933417'::double precision) AND (admin_level = '2'::text));
+CREATE INDEX planet_osm_polygon_idx55535970 ON planet_osm_polygon USING GIST (way) WHERE ((way_area > '36516.5369933417'::double precision) AND (admin_level = '4'::text));
+CREATE INDEX planet_osm_line_idx68591254 ON planet_osm_line USING GIST (way) WHERE (name IS NOT NULL);
+CREATE INDEX planet_osm_polygon_idx43421345 ON planet_osm_polygon USING GIST (way) WHERE (((aeroway = ANY ('{gate,apron,helipad,aerodrome}'::text[])) OR (tourism = ANY ('{alpine_hut,hotel,motel,hostel,chalet,guest_house,camp_site,caravan_site,theme_park,museum,attraction,zoo,information,picnic_site}'::text[])) OR (amenity IS NOT NULL) OR (shop IS NOT NULL) OR (leisure IS NOT NULL) OR (landuse IS NOT NULL) OR (man_made = ANY ('{lighthouse,windmill,mast,water_tower,pier,breakwater,groyne}'::text[])) OR ("natural" IS NOT NULL) OR (place = ANY ('{island,islet}'::text[])) OR (military = 'danger_area'::text) OR (historic = ANY ('{memorial,monument,archaeological_site}'::text[])) OR (highway = ANY ('{services,rest_area,bus_stop,elevator,ford}'::text[])) OR (power = ANY ('{plant,station,generator,sub_station,substation}'::text[])) OR (boundary = 'national_park'::text) OR (waterway = 'dam'::text)) AND (name IS NOT NULL));
+CREATE INDEX planet_osm_polygon_idx94242147 ON planet_osm_polygon USING GIST (way) WHERE (way_area > '0.91290959778722'::double precision);
+CREATE INDEX planet_osm_polygon_idx79563867 ON planet_osm_polygon USING GIST (way) WHERE ((way_area > '9129.0959778722'::double precision) AND (admin_level = '2'::text));
+CREATE INDEX planet_osm_point_idx79199002 ON planet_osm_point USING GIST (way) WHERE ((name IS NOT NULL) AND (capital = 'yes'::text) AND (admin_level = '2'::text));
+CREATE INDEX planet_osm_polygon_idx20824363 ON planet_osm_polygon USING GIST (way) WHERE ((way_area > '9129.0959778722'::double precision) AND (admin_level = '4'::text));
+CREATE INDEX planet_osm_point_idx36443655 ON planet_osm_point USING GIST (way) WHERE ((name IS NOT NULL) AND ((capital IS NULL) OR (capital <> 'yes'::text) OR ((capital = 'yes'::text) AND ((admin_level IS NULL) OR (admin_level <> '2'::text)))));
+CREATE INDEX planet_osm_polygon_idx56630504 ON planet_osm_polygon USING GIST (way) WHERE ((building IS NOT NULL) AND (name IS NOT NULL) AND (building <> 'no'::text));
+CREATE INDEX planet_osm_polygon_idx81424170 ON planet_osm_polygon USING GIST (way) WHERE (((barrier = ANY ('{bollard,gate,lift_gate,swing_gate,block}'::text[])) OR (highway = 'mini_roundabout'::text) OR (railway = 'level_crossing'::text) OR (amenity = ANY ('{parking,bicycle_parking,motorcycle_parking}'::text[]))));
+CREATE INDEX planet_osm_polygon_idx52868815 ON planet_osm_polygon USING GIST (way) WHERE (way_area > '0.228226898286778'::double precision);
+CREATE INDEX planet_osm_polygon_idx32075026 ON planet_osm_polygon USING GIST (way) WHERE (landuse = 'military'::text);
+CREATE INDEX planet_osm_polygon_idx32791268 ON planet_osm_polygon USING GIST (way) WHERE ((way_area > '2282.26898286778'::double precision) AND (admin_level = '2'::text));
+CREATE INDEX planet_osm_polygon_idx23177565 ON planet_osm_polygon USING GIST (way) WHERE ((way_area > '2282.26898286778'::double precision) AND (admin_level = '4'::text));
+CREATE INDEX planet_osm_polygon_idx58505821 ON planet_osm_polygon USING GIST (way) WHERE ((amenity = ANY ('{parking,bicycle_parking,motorcycle_parking}'::text[])) OR (barrier = ANY ('{bollard,gate,lift_gate,swing_gate,block}'::text[])));
+CREATE INDEX planet_osm_polygon_idx68057125 ON planet_osm_polygon USING GIST (way) WHERE (way_area > '0.0570569637618269'::double precision);
+CREATE INDEX planet_osm_roads_idx19224447 ON planet_osm_roads USING GIST (way) WHERE ((boundary = 'administrative'::text) AND (admin_level = ANY ('{0,1,2,3,4,5,6,7,8,9,10}'::text[])));
+CREATE INDEX planet_osm_polygon_idx80771509 ON planet_osm_polygon USING GIST (way) WHERE ((way_area > '570.569637618269'::double precision) AND (admin_level = '2'::text));
+CREATE INDEX planet_osm_polygon_idx49450983 ON planet_osm_polygon USING GIST (way) WHERE ((way_area > '570.569637618269'::double precision) AND (admin_level = '4'::text));
+CREATE INDEX planet_osm_polygon_idx72505525 ON planet_osm_polygon USING GIST (way) WHERE ((name IS NOT NULL) AND (boundary = 'administrative'::text) AND (admin_level = ANY ('{0,1,2,3,4,5,6,7,8,9,10}'::text[])));
+CREATE INDEX planet_osm_polygon_idx33069397 ON planet_osm_polygon USING GIST (way) WHERE ((boundary = 'national_park'::text) OR (leisure = 'nature_reserve'::text));
+CREATE INDEX planet_osm_polygon_idx71470212 ON planet_osm_polygon USING GIST (way) WHERE (way_area > '0.0142642409404567'::double precision);
+CREATE INDEX planet_osm_polygon_idx12624863 ON planet_osm_polygon USING GIST (way) WHERE ((way_area > '142.642409404567'::double precision) AND (admin_level = '2'::text));
+CREATE INDEX planet_osm_polygon_idx79797165 ON planet_osm_polygon USING GIST (way) WHERE ((way_area > '142.642409404567'::double precision) AND (admin_level = '4'::text));
+CREATE INDEX planet_osm_polygon_idx88089692 ON planet_osm_polygon USING GIST (way) WHERE ((way_area > '0.00356604813323006'::double precision) AND ((landuse IS NOT NULL) OR (leisure IS NOT NULL) OR (aeroway = ANY ('{apron,aerodrome}'::text[])) OR (amenity = ANY ('{parking,bicycle_parking,motorcycle_parking,university,college,school,hospital,kindergarten,grave_yard,place_of_worship,prison,clinic}'::text[])) OR (military = 'danger_area'::text) OR ("natural" = ANY ('{beach,shoal,heath,mud,marsh,wetland,grassland,wood,sand,scree,shingle,bare_rock,scrub}'::text[])) OR (power = ANY ('{station,sub_station,substation,generator}'::text[])) OR (tourism = ANY ('{attraction,camp_site,caravan_site,picnic_site}'::text[])) OR (highway = ANY ('{services,rest_area}'::text[])) OR (railway = 'station'::text)));
+CREATE INDEX planet_osm_line_idx34966162 ON planet_osm_line USING GIST (way) WHERE (man_made = 'cutline'::text);
+CREATE INDEX planet_osm_line_idx47639066 ON planet_osm_line USING GIST (way) WHERE (waterway = ANY ('{stream,drain,ditch}'::text[]));
+CREATE INDEX planet_osm_polygon_idx61783927 ON planet_osm_polygon USING GIST (way) WHERE (way_area > '0.00356604813323006'::double precision);
+CREATE INDEX planet_osm_line_idx63510964 ON planet_osm_line USING GIST (way) WHERE (((bridge IS NULL) OR (bridge <> ALL ('{yes,aqueduct}'::text[]))) AND (waterway = ANY ('{river,canal,derelict_canal,stream,drain,ditch,wadi}'::text[])));
+CREATE INDEX planet_osm_line_idx70889319 ON planet_osm_line USING GIST (way) WHERE (waterway = ANY ('{dam,weir,lock_gate}'::text[]));
+CREATE INDEX planet_osm_polygon_idx70889319 ON planet_osm_polygon USING GIST (way) WHERE (waterway = ANY ('{dam,weir,lock_gate}'::text[]));
+CREATE INDEX planet_osm_polygon_idx25231780 ON planet_osm_polygon USING GIST (way) WHERE (man_made = ANY ('{pier,breakwater,groyne}'::text[]));
+CREATE INDEX planet_osm_line_idx25231780 ON planet_osm_line USING GIST (way) WHERE (man_made = ANY ('{pier,breakwater,groyne}'::text[]));
+CREATE INDEX planet_osm_point_idx70889319 ON planet_osm_point USING GIST (way) WHERE (waterway = ANY ('{dam,weir,lock_gate}'::text[]));
+CREATE INDEX planet_osm_polygon_idx84312094 ON planet_osm_polygon USING GIST (way) WHERE ((building IS NOT NULL) AND (building <> 'no'::text) AND (way_area > '0.00356604813323006'::double precision));
+CREATE INDEX planet_osm_line_idx26795688 ON planet_osm_line USING GIST (way) WHERE ((barrier = ANY ('{chain,city_wall,embankment,ditch,fence,guard_rail,handrail,hedge,kerb,retaining_wall,wall}'::text[])) OR ((historic = 'citywalls'::text) AND ((waterway IS NULL) OR (waterway <> ALL ('{river,canal,derelict_canal,stream,drain,ditch,wadi}'::text[])))));
+CREATE INDEX planet_osm_line_idx53967993 ON planet_osm_line USING GIST (way) WHERE (("natural" = 'cliff'::text) OR (man_made = 'embankment'::text));
+CREATE INDEX planet_osm_point_idx66310511 ON planet_osm_point USING GIST (way) WHERE ((highway = 'turning_circle'::text) OR (highway = 'turning_loop'::text));
+CREATE INDEX planet_osm_polygon_idx11962040 ON planet_osm_polygon USING GIST (way) WHERE ((highway = ANY ('{residential,unclassified,pedestrian,service,footway,living_street,track,path,platform,services}'::text[])) OR (railway = 'platform'::text) OR (aeroway = ANY ('{runway,taxiway,helipad}'::text[])));
+CREATE INDEX planet_osm_line_idx15465565 ON planet_osm_line USING GIST (way) WHERE (aerialway IS NOT NULL);
+CREATE INDEX planet_osm_line_idx67119017 ON planet_osm_line USING GIST (way) WHERE ((bridge = ANY ('{yes,aqueduct}'::text[])) AND (waterway = ANY ('{river,canal,derelict_canal,stream,drain,ditch,wadi}'::text[])));
+CREATE INDEX planet_osm_line_idx34456143 ON planet_osm_line USING GIST (way) WHERE ((highway IS NOT NULL) AND (bridge = ANY ('{yes,boardwalk,cantilever,covered,low_water_crossing,movable,trestle,viaduct}'::text[])));
+CREATE INDEX planet_osm_line_idx67531079 ON planet_osm_line USING GIST (way) WHERE (((railway IS NOT NULL) OR (aeroway IS NOT NULL)) AND (bridge = ANY ('{yes,boardwalk,cantilever,covered,low_water_crossing,movable,trestle,viaduct}'::text[])));
+CREATE INDEX planet_osm_line_idx62096113 ON planet_osm_line USING GIST (way) WHERE (highway = 'bus_guideway'::text);
+CREATE INDEX planet_osm_line_idx83190393 ON planet_osm_line USING GIST (way) WHERE (power = 'minor_line'::text);
+CREATE INDEX planet_osm_line_idx92103431 ON planet_osm_line USING GIST (way) WHERE (power = 'line'::text);
+CREATE INDEX planet_osm_polygon_idx11546442 ON planet_osm_polygon USING GIST (way) WHERE ((building IS NULL) AND (way_area > '0.00356604813323006'::double precision) AND ((boundary = 'national_park'::text) OR (leisure = 'nature_reserve'::text)));
+CREATE INDEX planet_osm_polygon_idx63062396 ON planet_osm_polygon USING GIST (way) WHERE ((tourism = 'theme_park'::text) OR (tourism = 'zoo'::text));
+CREATE INDEX planet_osm_point_idx46646846 ON planet_osm_point USING GIST (way) WHERE ("natural" = 'tree'::text);
+CREATE INDEX planet_osm_line_idx23031039 ON planet_osm_line USING GIST (way) WHERE ("natural" = 'tree_row'::text);
+CREATE INDEX planet_osm_polygon_idx23321340 ON planet_osm_polygon USING GIST (way) WHERE ((way_area > '35.6604813323006'::double precision) AND (admin_level = '2'::text));
+CREATE INDEX planet_osm_polygon_idx76824187 ON planet_osm_polygon USING GIST (way) WHERE ((way_area > '35.6604813323006'::double precision) AND (admin_level = '4'::text));
+CREATE INDEX planet_osm_point_idx87009510 ON planet_osm_point USING GIST (way) WHERE ((name IS NOT NULL) AND (place = ANY ('{suburb,village,hamlet,neighbourhood,locality,isolated_dwelling,farm}'::text[])));
+CREATE INDEX planet_osm_point_idx45347106 ON planet_osm_point USING GIST (way) WHERE ((railway = ANY ('{station,halt,tram_stop,subway_entrance}'::text[])) OR (aerialway = 'station'::text));
+CREATE INDEX planet_osm_polygon_idx15484297 ON planet_osm_polygon USING GIST (way) WHERE ((railway = ANY ('{station,halt,tram_stop}'::text[])) OR (aerialway = 'station'::text));
+CREATE INDEX planet_osm_polygon_idx92426982 ON planet_osm_polygon USING GIST (way) WHERE ((aeroway = ANY ('{helipad,aerodrome}'::text[])) OR (tourism = ANY ('{artwork,alpine_hut,camp_site,caravan_site,chalet,guest_house,hostel,hotel,motel,information,museum,viewpoint,picnic_site}'::text[])) OR (amenity = ANY ('{shelter,atm,bank,bar,bicycle_rental,bus_station,cafe,car_rental,car_wash,cinema,clinic,community_centre,fire_station,fountain,fuel,hospital,ice_cream,embassy,library,courthouse,townhall,parking,bicycle_parking,motorcycle_parking,pharmacy,doctors,dentist,place_of_worship,police,post_box,post_office,pub,biergarten,recycling,restaurant,food_court,fast_food,telephone,emergency_phone,taxi,theatre,toilets,drinking_water,prison,hunting_stand,nightclub,veterinary,social_facility,charging_station}'::text[])) OR (shop IS NOT NULL) OR (leisure = ANY ('{water_park,playground,miniature_golf,golf_course,picnic_table}'::text[])) OR (man_made = ANY ('{mast,water_tower,lighthouse,windmill,obelisk}'::text[])) OR ("natural" = 'spring'::text) OR (historic = ANY ('{memorial,monument,archaeological_site}'::text[])) OR (highway = ANY ('{bus_stop,elevator,traffic_signals}'::text[])) OR ((power = 'generator'::text) AND (("generator:source" = 'wind'::text) OR (power_source = 'wind'::text))));
+CREATE INDEX planet_osm_point_idx34376114 ON planet_osm_point USING GIST (way) WHERE ((aeroway = ANY ('{helipad,aerodrome}'::text[])) OR (tourism = ANY ('{artwork,alpine_hut,camp_site,caravan_site,chalet,guest_house,hostel,hotel,motel,information,museum,viewpoint,picnic_site}'::text[])) OR (amenity = ANY ('{shelter,atm,bank,bar,bicycle_rental,bus_station,cafe,car_rental,car_wash,cinema,clinic,community_centre,fire_station,fountain,fuel,hospital,ice_cream,embassy,library,courthouse,townhall,parking,bicycle_parking,motorcycle_parking,pharmacy,doctors,dentist,place_of_worship,police,post_box,post_office,pub,biergarten,recycling,restaurant,food_court,fast_food,telephone,emergency_phone,taxi,theatre,toilets,drinking_water,prison,hunting_stand,nightclub,veterinary,social_facility,charging_station}'::text[])) OR (shop IS NOT NULL) OR (leisure = ANY ('{water_park,playground,miniature_golf,golf_course,picnic_table,slipway,dog_park}'::text[])) OR (man_made = ANY ('{mast,water_tower,lighthouse,windmill,cross,obelisk}'::text[])) OR ("natural" = ANY ('{peak,volcano,saddle,spring,cave_entrance}'::text[])) OR (historic = ANY ('{memorial,monument,archaeological_site,wayside_cross}'::text[])) OR (highway = ANY ('{bus_stop,elevator,traffic_signals,ford}'::text[])) OR ((power = 'generator'::text) AND (("generator:source" = 'wind'::text) OR (power_source = 'wind'::text))));
+CREATE INDEX planet_osm_point_idx52550809 ON planet_osm_point USING GIST (way) WHERE (power = 'tower'::text);
+CREATE INDEX planet_osm_point_idx10386743 ON planet_osm_point USING GIST (way) WHERE (power = 'pole'::text);
+CREATE INDEX planet_osm_point_idx37076637 ON planet_osm_point USING GIST (way) WHERE ((highway = 'motorway_junction'::text) OR (highway = 'traffic_signals'::text) OR (junction = 'yes'::text));
+CREATE INDEX planet_osm_polygon_idx85333350 ON planet_osm_polygon USING GIST (way) WHERE ((highway = ANY ('{residential,unclassified,pedestrian,service,footway,cycleway,living_street,track,path,platform}'::text[])) OR ((railway = 'platform'::text) AND (name IS NOT NULL)));
+CREATE INDEX planet_osm_line_idx61529580 ON planet_osm_line USING GIST (way) WHERE (((name IS NOT NULL) OR (oneway = ANY ('{yes,-1}'::text[])) OR (junction = 'roundabout'::text)) AND (highway = ANY ('{motorway,motorway_link,trunk,trunk_link,primary,primary_link,secondary,secondary_link,tertiary,tertiary_link,residential,unclassified,road,service,pedestrian,raceway,living_street,construction}'::text[])));
+CREATE INDEX planet_osm_line_idx70514567 ON planet_osm_line USING GIST (way) WHERE ((name IS NOT NULL) AND (highway = ANY ('{bridleway,footway,cycleway,path,track,steps}'::text[])));
+CREATE INDEX planet_osm_polygon_idx11649685 ON planet_osm_polygon USING GIST (way) WHERE (((name IS NOT NULL) OR ((ref IS NOT NULL) AND (aeroway = 'gate'::text))) AND ((aeroway = ANY ('{gate,apron,helipad,aerodrome}'::text[])) OR (tourism = ANY ('{artwork,alpine_hut,hotel,motel,hostel,chalet,guest_house,camp_site,caravan_site,theme_park,museum,viewpoint,attraction,zoo,information,picnic_site}'::text[])) OR (amenity IS NOT NULL) OR (shop IS NOT NULL) OR (leisure IS NOT NULL) OR (landuse IS NOT NULL) OR (man_made = ANY ('{lighthouse,windmill,mast,water_tower,pier,breakwater,groyne,obelisk}'::text[])) OR ("natural" IS NOT NULL) OR (place = ANY ('{island,islet}'::text[])) OR (military = 'danger_area'::text) OR (historic = ANY ('{memorial,monument,archaeological_site}'::text[])) OR (highway = ANY ('{services,rest_area,bus_stop,elevator,ford}'::text[])) OR (power = ANY ('{plant,station,generator,sub_station,substation}'::text[])) OR (boundary = 'national_park'::text) OR (waterway = 'dam'::text)));
+CREATE INDEX planet_osm_line_idx19741303 ON planet_osm_line USING GIST (way) WHERE ((name IS NOT NULL) AND ((man_made = ANY ('{pier,breakwater,groyne,embankment}'::text[])) OR (waterway = ANY ('{dam,weir}'::text[])) OR ("natural" = 'cliff'::text)));
+CREATE INDEX planet_osm_point_idx31185583 ON planet_osm_point USING GIST (way) WHERE (((name IS NOT NULL) OR ((ele IS NOT NULL) AND (("natural" = ANY ('{peak,volcano,saddle}'::text[])) OR (tourism = 'alpine_hut'::text) OR (amenity = 'shelter'::text))) OR ((ref IS NOT NULL) AND (aeroway = 'gate'::text))) AND ((aeroway = ANY ('{gate,apron,helipad,aerodrome}'::text[])) OR (tourism = ANY ('{artwork,alpine_hut,hotel,motel,hostel,chalet,guest_house,camp_site,caravan_site,theme_park,museum,viewpoint,attraction,zoo,information,picnic_site}'::text[])) OR (amenity IS NOT NULL) OR (shop IS NOT NULL) OR (leisure IS NOT NULL) OR (landuse = ANY ('{reservoir,basin,recreation_ground,village_green,quarry,vineyard,orchard,cemetery,residential,garages,meadow,grass,allotments,forest,farmyard,farm,farmland,greenhouse_horticulture,retail,industrial,railway,commercial,brownfield,landfill,construction,military}'::text[])) OR (man_made = ANY ('{lighthouse,windmill,mast,water_tower,cross,obelisk}'::text[])) OR ("natural" IS NOT NULL) OR (place = ANY ('{island,islet}'::text[])) OR (military = 'danger_area'::text) OR (historic = ANY ('{memorial,monument,archaeological_site,wayside_cross}'::text[])) OR (highway = ANY ('{bus_stop,services,rest_area,elevator,ford}'::text[])) OR (power = ANY ('{plant,station,generator,sub_station,substation}'::text[])) OR (boundary = 'national_park'::text) OR (waterway = ANY ('{dam,weir}'::text[]))));
+CREATE INDEX planet_osm_line_idx16225232 ON planet_osm_line USING GIST (way) WHERE ("addr:interpolation" IS NOT NULL);
+CREATE INDEX planet_osm_line_idx42171288 ON planet_osm_line USING GIST (way) WHERE ((name IS NOT NULL) AND ((tunnel IS NULL) OR (tunnel <> 'culvert'::text)) AND (waterway = ANY ('{river,canal,derelict_canal,stream,drain,ditch,wadi}'::text[])));
+CREATE INDEX planet_osm_point_idx50942855 ON planet_osm_point USING GIST (way) WHERE ((highway = 'mini_roundabout'::text) OR (railway = ANY ('{level_crossing,crossing}'::text[])) OR (amenity = ANY ('{parking,bicycle_parking,motorcycle_parking,bench,waste_basket}'::text[])) OR (historic = 'wayside_cross'::text) OR (man_made = 'cross'::text) OR (barrier = ANY ('{bollard,gate,lift_gate,swing_gate,block}'::text[])));
+CREATE INDEX planet_osm_polygon_idx15810835 ON planet_osm_polygon USING GIST (way) WHERE ((way_area > '0.000891512033307516'::double precision) AND ((landuse IS NOT NULL) OR (leisure IS NOT NULL) OR (aeroway = ANY ('{apron,aerodrome}'::text[])) OR (amenity = ANY ('{parking,bicycle_parking,motorcycle_parking,university,college,school,hospital,kindergarten,grave_yard,place_of_worship,prison,clinic}'::text[])) OR (military = 'danger_area'::text) OR ("natural" = ANY ('{beach,shoal,heath,mud,marsh,wetland,grassland,wood,sand,scree,shingle,bare_rock,scrub}'::text[])) OR (power = ANY ('{station,sub_station,substation,generator}'::text[])) OR (tourism = ANY ('{attraction,camp_site,caravan_site,picnic_site}'::text[])) OR (highway = ANY ('{services,rest_area}'::text[])) OR (railway = 'station'::text)));
+CREATE INDEX planet_osm_polygon_idx28024156 ON planet_osm_polygon USING GIST (way) WHERE (way_area > '0.000891512033307516'::double precision);
+CREATE INDEX planet_osm_polygon_idx26938457 ON planet_osm_polygon USING GIST (way) WHERE ((building IS NOT NULL) AND (building <> 'no'::text) AND (way_area > '0.000891512033307516'::double precision));
+CREATE INDEX planet_osm_polygon_idx79592696 ON planet_osm_polygon USING GIST (way) WHERE ((building IS NULL) AND (way_area > '0.000891512033307516'::double precision) AND ((boundary = 'national_park'::text) OR (leisure = 'nature_reserve'::text)));
+CREATE INDEX planet_osm_polygon_idx59588155 ON planet_osm_polygon USING GIST (way) WHERE ((way_area > '8.91512033307515'::double precision) AND (admin_level = '2'::text));
+CREATE INDEX planet_osm_polygon_idx65318269 ON planet_osm_polygon USING GIST (way) WHERE ((way_area > '8.91512033307515'::double precision) AND (admin_level = '4'::text));
+ANALYZE planet_osm_roads;
+ANALYZE planet_osm_polygon;
+ANALYZE planet_osm_line;
+ANALYZE planet_osm_point;
