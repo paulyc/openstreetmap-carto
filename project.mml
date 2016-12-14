@@ -839,8 +839,8 @@ Layer:
       minzoom: 14
       maxzoom: 22
     advanced: {}
-  - name: "roads-casing"
-    id: "roads-casing"
+  - id: "roads-casing"
+    name: "roads-casing"
     class: "roads-casing"
     geometry: "linestring"
     <<: *extents
@@ -1419,8 +1419,8 @@ Layer:
       minzoom: 13
       maxzoom: 22
     advanced: {}
-  - name: "admin-low-zoom"
-    id: "admin-low-zoom"
+  - id: "admin-low-zoom"
+    name: "admin-low-zoom"
     class: ""
     geometry: "linestring"
     <<: *extents
@@ -1632,7 +1632,7 @@ Layer:
             END as population,
             round(ascii(md5(osm_id::text)) / 55) AS dir -- base direction factor on geometry to be consistent across metatiles
           FROM planet_osm_point
-          WHERE place IN ('city', 'town')
+          WHERE place IN ('city', 'town', 'village', 'hamlet')
             AND name IS NOT NULL
             AND capital = 'yes'
           ORDER BY population DESC
@@ -1729,8 +1729,11 @@ Layer:
             place,
             name
           FROM planet_osm_point
-          WHERE place IN ('suburb', 'village', 'hamlet', 'neighbourhood', 'locality', 'isolated_dwelling', 'farm')
-            AND name IS NOT NULL
+          WHERE place IN ('village', 'hamlet')
+             AND name IS NOT NULL
+             AND (capital IS NULL OR capital != 'yes')
+             OR place IN ('suburb', 'neighbourhood', 'locality', 'isolated_dwelling', 'farm')
+             AND name IS NOT NULL
           ORDER BY CASE
               WHEN place = 'suburb' THEN 3
               WHEN place = 'village' THEN 4
@@ -1758,6 +1761,7 @@ Layer:
         (SELECT
             way,
             name,
+            ref,
             railway,
             aerialway,
             CASE railway 
@@ -1788,6 +1792,7 @@ Layer:
         (SELECT
             way,
             name,
+            ref,
             railway,
             aerialway
         FROM planet_osm_polygon
@@ -2043,12 +2048,35 @@ Layer:
             highway,
             junction,
             ref,
-            name
+            name,
+            NULL AS way_pixels
           FROM planet_osm_point
           WHERE (
             highway = 'motorway_junction' OR highway = 'traffic_signals' OR junction = 'yes'
             ) AND way && !bbox!
-        ) AS junctions
+          UNION(
+            SELECT
+              ST_BuildArea(way),
+              highway,
+              junction,
+              ref,
+              name,
+              NULL AS way_pixels
+            FROM planet_osm_line
+            WHERE junction = 'yes'
+            UNION
+            SELECT
+              way,
+              highway,
+              junction,
+              ref,
+              name,
+              way_area/NULLIF(!pixel_width!::real*!pixel_height!::real,0) AS way_pixels
+            FROM planet_osm_polygon
+            WHERE junction = 'yes'
+            ORDER BY way_pixels DESC NULLS LAST
+          )
+         ) AS junctions
     properties:
       minzoom: 11
       maxzoom: 22
