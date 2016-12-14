@@ -113,11 +113,10 @@ A regular style.
 
                 "Noto Kufi Arabic Regular",
 
-                "Noto Emoji Regular",
 
                 "DejaVu Sans Book",
 
-                "Unifont Medium", "unifont Medium", "Unifont Upper Medium";
+                "unifont Medium";
 
 /*
 A bold style is available for almost all scripts. Bold text is heavier than
@@ -145,7 +144,6 @@ regular text and can be used for emphasis. Fallback is a regular style.
                 "Noto Sans Telugu UI Bold",
                 "Noto Sans Thaana Bold",
                 "Noto Sans Thai UI Bold",
-                "Noto Sans Tibetan Bold",
 
                 "Noto Sans CJK JP Regular",
                 "Noto Sans Balinese Regular",
@@ -192,11 +190,10 @@ regular text and can be used for emphasis. Fallback is a regular style.
 
                 "Noto Kufi Arabic Regular",
 
-                "Noto Emoji Regular",
 
                 "DejaVu Sans Bold", "DejaVu Sans Book",
 
-                "Unifont Medium", "unifont Medium", "Unifont Upper Medium";
+                "unifont Medium";
 
 /*
 Italics are only available for the base font, not the other scripts.
@@ -265,11 +262,10 @@ For a considerable number of labels this style will make no difference to the re
 
                 "Noto Kufi Arabic Regular",
 
-                "Noto Emoji Regular",
 
                 "DejaVu Sans Oblique", "DejaVu Sans Book",
 
-                "Unifont Medium", "unifont Medium", "Unifont Upper Medium";
+                "unifont Medium";
 
 @water-color: #b5d0d0;
 @land-color: #f2efe9;
