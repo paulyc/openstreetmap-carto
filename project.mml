@@ -1,7 +1,7 @@
 scale: 1
 metatile: 2
-name: "OpenStreetMap Carto"
-description: "A general-purpose OpenStreetMap mapnik style, in CartoCSS"
+name: OpenStreetMap Carto
+description: A general-purpose OpenStreetMap mapnik style, in CartoCSS
 bounds: &world
   - -180
   - -85.05112877980659
@@ -11,7 +11,7 @@ center:
   - 0
   - 0
   - 4
-format: "png"
+format: png
 interactivity: false
 minzoom: 0
 maxzoom: 22
@@ -40,76 +40,67 @@ source: 'tilejson+http://localhost:8080/pbfs/live/index.json'
 
 
 styles:
-  - "style.mss"
-  - "shapefiles.mss"
-  - "landcover.mss"
-  - "water.mss"
-  - "water-features.mss"
-  - "road-colors-generated.mss"
-  - "roads.mss"
-  - "power.mss"
-  - "placenames.mss"
-  - "buildings.mss"
-  - "stations.mss"
-  - "amenity-points.mss"
-  - "ferry-routes.mss"
-  - "aerialways.mss"
-  - "admin.mss"
-  - "addressing.mss"
+  - style.mss
+  - shapefiles.mss
+  - landcover.mss
+  - water.mss
+  - water-features.mss
+  - road-colors-generated.mss
+  - roads.mss
+  - power.mss
+  - placenames.mss
+  - buildings.mss
+  - stations.mss
+  - amenity-points.mss
+  - ferry-routes.mss
+  - aerialways.mss
+  - admin.mss
+  - addressing.mss
 Layer:
-  - id: "world"
-    name: "world"
-    class: ""
-    geometry: "polygon"
+  - id: world
+    name: world
+    geometry: polygon
     <<: *extents
     Datasource:
-      file: "data/simplified-land-polygons-complete-3857/simplified_land_polygons.shp"
-      type: "shape"
-    advanced: {}
+      file: data/simplified-land-polygons-complete-3857/simplified_land_polygons.shp
+      type: shape
     properties:
       maxzoom: 9
-  - id: "coast-poly"
-    name: "coast-poly"
-    class: ""
-    geometry: "polygon"
+  - id: coast-poly
+    name: coast-poly
+    geometry: polygon
     <<: *extents
     Datasource:
-      file: "data/land-polygons-split-3857/land_polygons.shp"
-      type: "shape"
+      file: data/land-polygons-split-3857/land_polygons.shp
+      type: shape
     properties:
       minzoom: 10
       maxzoom: 22
-    advanced: {}
-  - id: "builtup"
-    name: "builtup"
-    geometry: "polygon"
-    class: ""
+  - id: builtup
+    name: builtup
+    geometry: polygon
     extent: *world
-    srs-name: "mercator"
+    srs-name: mercator
     srs: "+proj=merc +datum=WGS84 +over"
     Datasource:
-      file: "data/world_boundaries/builtup_area.shp"
-      type: "shape"
+      file: data/world_boundaries/builtup_area.shp
+      type: shape
     properties:
       minzoom: 8
       maxzoom: 9
-    advanced: {}
-  - id: "necountries"
-    name: "necountries"
-    class: ""
-    geometry: "linestring"
+  - id: necountries
+    name: necountries
+    geometry: linestring
     <<: *extents84
     Datasource:
-      file: "data/ne_110m_admin_0_boundary_lines_land/ne_110m_admin_0_boundary_lines_land.shp"
-      type: "shape"
+      file: data/ne_110m_admin_0_boundary_lines_land/ne_110m_admin_0_boundary_lines_land.shp
+      type: shape
     properties:
       minzoom: 1
       maxzoom: 3
-    advanced: {}
-  - id: "landcover-low-zoom"
-    name: "landcover-low-zoom"
-    class: ""
-    geometry: "polygon"
+  - id: landcover-low-zoom
+    name: landcover-low-zoom
+    geometry: polygon
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -135,11 +126,9 @@ Layer:
     properties:
       minzoom: 7
       maxzoom: 9
-    advanced: {}
-  - id: "landcover"
-    name: "landcover"
-    class: ""
-    geometry: "polygon"
+  - id: landcover
+    name: landcover
+    geometry: polygon
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -190,11 +179,9 @@ Layer:
       minzoom: 10
       maxzoom: 22
       buffer-size: 2
-    advanced: {}
-  - id: "landcover-line"
-    name: "landcover-line"
-    class: ""
-    geometry: "linestring"
+  - id: landcover-line
+    name: landcover-line
+    geometry: linestring
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -205,14 +192,12 @@ Layer:
           FROM planet_osm_line
           WHERE man_made = 'cutline'
         ) AS landcover_line
-    advanced: {}
     properties:
       minzoom: 14
       maxzoom: 22
-  - id: "water-lines-casing"
-    name: "water-lines-casing"
-    class: ""
-    geometry: "linestring"
+  - id: water-lines-casing
+    name: water-lines-casing
+    geometry: linestring
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -227,11 +212,9 @@ Layer:
     properties:
       minzoom: 13
       maxzoom: 22
-    advanced: {}
-  - id: "water-lines-low-zoom"
-    name: "water-lines-low-zoom"
-    class: ""
-    geometry: "linestring"
+  - id: water-lines-low-zoom
+    name: water-lines-low-zoom
+    geometry: linestring
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -247,23 +230,19 @@ Layer:
     properties:
       minzoom: 8
       maxzoom: 11
-    advanced: {}
-  - id: "icesheet-poly"
-    name: "icesheet-poly"
-    class: ""
-    geometry: "polygon"
+  - id: icesheet-poly
+    name: icesheet-poly
+    geometry: polygon
     <<: *extents
     Datasource:
-      file: "data/antarctica-icesheet-polygons-3857/icesheet_polygons.shp"
-      type: "shape"
+      file: data/antarctica-icesheet-polygons-3857/icesheet_polygons.shp
+      type: shape
     properties:
       minzoom: 4
       maxzoom: 22
-    advanced: {}
-  - id: "water-areas"
-    name: "water-areas"
-    class: ""
-    geometry: "polygon"
+  - id: water-areas
+    name: water-areas
+    geometry: polygon
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -288,11 +267,9 @@ Layer:
     properties:
       minzoom: 4
       maxzoom: 22
-    advanced: {}
-  - id: "landcover-area-symbols"
-    name: "landcover-area-symbols"
-    class: ""
-    geometry: "polygon"
+  - id: landcover-area-symbols
+    name: landcover-area-symbols
+    geometry: polygon
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -320,23 +297,20 @@ Layer:
     properties:
       minzoom: 10
       maxzoom: 22
-    advanced: {}
-  - id: "icesheet-outlines"
-    name: "icesheet-outlines"
-    class: ""
-    geometry: "linestring"
+  - id: icesheet-outlines
+    name: icesheet-outlines
+    geometry: linestring
     <<: *extents
     Datasource:
-      file: "data/antarctica-icesheet-outlines-3857/icesheet_outlines.shp"
-      type: "shape"
+      file: data/antarctica-icesheet-outlines-3857/icesheet_outlines.shp
+      type: shape
     properties:
       minzoom: 4
       maxzoom: 22
-    advanced: {}
-  - id: "water-lines"
-    name: "water-lines"
-    class: "water-lines"
-    geometry: "linestring"
+  - id: water-lines
+    name: water-lines
+    class: water-lines
+    geometry: linestring
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -354,11 +328,9 @@ Layer:
     properties:
       minzoom: 12
       maxzoom: 22
-    advanced: {}
-  - id: "water-barriers-line"
-    name: "water-barriers-line"
-    class: ""
-    geometry: "linestring"
+  - id: water-barriers-line
+    name: water-barriers-line
+    geometry: linestring
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -371,14 +343,12 @@ Layer:
           FROM planet_osm_line
           WHERE waterway IN ('dam', 'weir', 'lock_gate')
         ) AS water_barriers_line
-    advanced: {}
     properties:
       minzoom: 13
       maxzoom: 22
-  - id: "water-barriers-poly"
-    name: "water-barriers-poly"
-    class: ""
-    geometry: "polygon"
+  - id: water-barriers-poly
+    name: water-barriers-poly
+    geometry: polygon
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -391,14 +361,12 @@ Layer:
           FROM planet_osm_polygon
           WHERE waterway IN ('dam', 'weir', 'lock_gate')
         ) AS water_barriers_poly
-    advanced: {}
     properties:
       minzoom: 13
       maxzoom: 22
-  - id: "marinas-area"
-    name: "marinas-area"
-    class: ""
-    geometry: "polygon"
+  - id: marinas-area
+    name: marinas-area
+    geometry: polygon
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -412,11 +380,9 @@ Layer:
     properties:
       minzoom: 14
       maxzoom: 22
-    advanced: {}
-  - id: "piers-poly"
-    name: "piers-poly"
-    class: ""
-    geometry: "polygon"
+  - id: piers-poly
+    name: piers-poly
+    geometry: polygon
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -430,11 +396,9 @@ Layer:
     properties:
       minzoom: 12
       maxzoom: 22
-    advanced: {}
-  - id: "piers-line"
-    name: "piers-line"
-    class: ""
-    geometry: "linestring"
+  - id: piers-line
+    name: piers-line
+    geometry: linestring
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -448,11 +412,9 @@ Layer:
     properties:
       minzoom: 12
       maxzoom: 22
-    advanced: {}
-  - id: "water-barriers-point"
-    name: "water-barriers-point"
-    class: ""
-    geometry: "point"
+  - id: water-barriers-point
+    name: water-barriers-point
+    geometry: point
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -466,11 +428,9 @@ Layer:
     properties:
       minzoom: 17
       maxzoom: 22
-    advanced: {}
-  - id: "bridge"
-    name: "bridge"
-    class: ""
-    geometry: "polygon"
+  - id: bridge
+    name: bridge
+    geometry: polygon
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -487,11 +447,9 @@ Layer:
     properties:
       minzoom: 12
       maxzoom: 22
-    advanced: {}
-  - id: "buildings"
-    name: "buildings"
-    class: ""
-    geometry: "polygon"
+  - id: buildings
+    name: buildings
+    geometry: polygon
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -510,11 +468,9 @@ Layer:
       minzoom: 13
       maxzoom: 22
       buffer-size: 2
-    advanced: {}
-  - id: "buildings-major"
-    name: "buildings-major"
-    class: ""
-    geometry: "polygon"
+  - id: buildings-major
+    name: buildings-major
+    geometry: polygon
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -535,11 +491,10 @@ Layer:
     properties:
       minzoom: 13
       maxzoom: 22
-    advanced: {}
-  - id: "tunnels"
-    name: "tunnels"
-    class: ""
-    geometry: "linestring"
+  - id: tunnels
+    name: tunnels
+    class: tunnels-fill tunnels-casing access
+    geometry: linestring
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -673,14 +628,12 @@ Layer:
             CASE WHEN int_surface IN ('unpaved') THEN 0 ELSE 2 END
         ) AS tunnels
     properties:
-      group-by: "layernotnull"
+      group-by: layernotnull
       minzoom: 9
       maxzoom: 22
-    advanced: {}
-  - id: "landuse-overlay"
-    name: "landuse-overlay"
-    class: ""
-    geometry: "polygon"
+  - id: landuse-overlay
+    name: landuse-overlay
+    geometry: polygon
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -698,11 +651,10 @@ Layer:
       minzoom: 7
       buffer-size: 4
       maxzoom: 22
-    advanced: {}
-  - id: "line-barriers"
-    name: "line-barriers"
-    class: "barriers"
-    geometry: "linestring"
+  - id: line-barriers
+    name: line-barriers
+    class: barriers
+    geometry: linestring
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -724,11 +676,9 @@ Layer:
     properties:
       minzoom: 14
       maxzoom: 22
-    advanced: {}
-  - id: "cliffs"
-    name: "cliffs"
-    class: ""
-    geometry: "linestring"
+  - id: cliffs
+    name: cliffs
+    geometry: linestring
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -742,11 +692,10 @@ Layer:
     properties:
       minzoom: 13
       maxzoom: 22
-    advanced: {}
-  - id: "area-barriers"
-    name: "area-barriers"
-    class: "barriers"
-    geometry: "polygon"
+  - id: area-barriers
+    name: area-barriers
+    class: barriers
+    geometry: polygon
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -763,11 +712,9 @@ Layer:
     properties:
       minzoom: 16
       maxzoom: 22
-    advanced: {}
-  - id: "ferry-routes"
-    name: "ferry-routes"
-    class: ""
-    geometry: "linestring"
+  - id: ferry-routes
+    name: ferry-routes
+    geometry: linestring
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -781,11 +728,9 @@ Layer:
     properties:
       minzoom: 7
       maxzoom: 22
-    advanced: {}
-  - id: "turning-circle-casing"
-    name: "turning-circle-casing"
-    class: ""
-    geometry: "point"
+  - id: turning-circle-casing
+    name: turning-circle-casing
+    geometry: point
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -814,11 +759,9 @@ Layer:
     properties:
       minzoom: 15
       maxzoom: 22
-    advanced: {}
-  - id: "highway-area-casing"
-    name: "highway-area-casing"
-    class: ""
-    geometry: "polygon"
+  - id: highway-area-casing
+    name: highway-area-casing
+    geometry: polygon
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -838,11 +781,10 @@ Layer:
     properties:
       minzoom: 14
       maxzoom: 22
-    advanced: {}
-  - id: "roads-casing"
-    name: "roads-casing"
-    class: "roads-casing"
-    geometry: "linestring"
+  - id: roads-casing
+    name: roads-casing
+    class: roads-casing
+    geometry: linestring
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -979,10 +921,8 @@ Layer:
       minzoom: 9
       maxzoom: 22
       buffer-size: 8
-    advanced: {}
-  - id: "highway-area-fill"
-    name: "highway-area-fill"
-    class: ""
+  - id: highway-area-fill
+    name: highway-area-fill
     # FIXME: No geometry?
     <<: *extents
     Datasource:
@@ -1006,11 +946,10 @@ Layer:
     properties:
       minzoom: 14
       maxzoom: 22
-    advanced: {}
-  - id: "roads-fill"
-    name: "roads-fill"
-    class: "roads-fill access"
-    geometry: "linestring"
+  - id: roads-fill
+    name: roads-fill
+    class: roads-fill access
+    geometry: linestring
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -1152,11 +1091,9 @@ Layer:
       minzoom: 10
       maxzoom: 22
       buffer-size: 8
-    advanced: {}
-  - id: "turning-circle-fill"
-    name: "turning-circle-fill"
-    class: ""
-    geometry: "point"
+  - id: turning-circle-fill
+    name: turning-circle-fill
+    geometry: point
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -1185,11 +1122,9 @@ Layer:
     properties:
       minzoom: 15
       maxzoom: 22
-    advanced: {}
-  - id: "aerialways"
-    name: "aerialways"
-    class: ""
-    geometry: "linestring"
+  - id: aerialways
+    name: aerialways
+    geometry: linestring
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -1204,11 +1139,9 @@ Layer:
     properties:
       minzoom: 12
       maxzoom: 22
-    advanced: {}
-  - id: "roads-low-zoom"
-    name: "roads-low-zoom"
-    class: ""
-    geometry: "linestring"
+  - id: roads-low-zoom
+    name: roads-low-zoom
+    geometry: linestring
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -1238,11 +1171,10 @@ Layer:
     properties:
       minzoom: 5
       maxzoom: 9
-    advanced: {}
-  - id: "waterway-bridges"
-    name: "waterway-bridges"
-    class: "water-lines"
-    geometry: "linestring"
+  - id: waterway-bridges
+    name: waterway-bridges
+    class: water-lines
+    geometry: linestring
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -1263,11 +1195,10 @@ Layer:
     properties:
       minzoom: 15
       maxzoom: 22
-    advanced: {}
-  - id: "bridges"
-    name: "bridges"
-    class: "bridges-fill bridges-casing access"
-    geometry: "linestring"
+  - id: bridges
+    name: bridges
+    class: bridges-fill bridges-casing access
+    geometry: linestring
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -1397,14 +1328,12 @@ Layer:
             CASE WHEN int_surface IN ('unpaved') THEN 0 ELSE 2 END
         ) AS bridges
     properties:
-      group-by: "layernotnull"
+      group-by: layernotnull
       minzoom: 9
       maxzoom: 22
-    advanced: {}
-  - id: "guideways"
-    name: "guideways"
-    class: ""
-    geometry: "linestring"
+  - id: guideways
+    name: guideways
+    geometry: linestring
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -1418,11 +1347,9 @@ Layer:
     properties:
       minzoom: 13
       maxzoom: 22
-    advanced: {}
-  - id: "admin-low-zoom"
-    name: "admin-low-zoom"
-    class: ""
-    geometry: "linestring"
+  - id: admin-low-zoom
+    name: admin-low-zoom
+    geometry: linestring
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -1440,11 +1367,9 @@ Layer:
     properties:
       minzoom: 4
       maxzoom: 10
-    advanced: {}
-  - id: "admin-mid-zoom"
-    name: "admin-mid-zoom"
-    class: ""
-    geometry: "linestring"
+  - id: admin-mid-zoom
+    name: admin-mid-zoom
+    geometry: linestring
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -1462,11 +1387,9 @@ Layer:
     properties:
       minzoom: 11
       maxzoom: 12
-    advanced: {}
-  - id: "admin-high-zoom"
-    name: "admin-high-zoom"
-    class: ""
-    geometry: "linestring"
+  - id: admin-high-zoom
+    name: admin-high-zoom
+    geometry: linestring
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -1484,11 +1407,9 @@ Layer:
     properties:
       minzoom: 13
       maxzoom: 22
-    advanced: {}
-  - id: "power-minorline"
-    name: "power-minorline"
-    class: ""
-    geometry: "linestring"
+  - id: power-minorline
+    name: power-minorline
+    geometry: linestring
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -1502,11 +1423,9 @@ Layer:
     properties:
       minzoom: 16
       maxzoom: 22
-    advanced: {}
-  - id: "power-line"
-    name: "power-line"
-    class: ""
-    geometry: "linestring"
+  - id: power-line
+    name: power-line
+    geometry: linestring
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -1520,11 +1439,9 @@ Layer:
     properties:
       minzoom: 14
       maxzoom: 22
-    advanced: {}
-  - id: "nature-reserve-boundaries"
-    name: "nature-reserve-boundaries"
-    class: ""
-    geometry: "polygon"
+  - id: nature-reserve-boundaries
+    name: nature-reserve-boundaries
+    geometry: polygon
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -1544,11 +1461,9 @@ Layer:
       minzoom: 7
       maxzoom: 22
       buffer-size: 10
-    advanced: {}
-  - id: "tourism-boundary"
-    name: "tourism-boundary"
-    class: ""
-    geometry: "polygon"
+  - id: tourism-boundary
+    name: tourism-boundary
+    geometry: polygon
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -1567,11 +1482,9 @@ Layer:
       minzoom: 10
       maxzoom: 22
       buffer-size: 16
-    advanced: {}
-  - id: "trees"
-    name: "trees"
-    class: ""
-    geometry: "polygon"
+  - id: trees
+    name: trees
+    geometry: polygon
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -1590,11 +1503,10 @@ Layer:
     properties:
       minzoom: 16
       maxzoom: 22
-    advanced: {}
-  - id: "country-names"
-    name: "country-names"
-    class: "country"
-    geometry: "point"
+  - id: country-names
+    name: country-names
+    class: country
+    geometry: point
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -1616,10 +1528,9 @@ Layer:
       minzoom: 2
       maxzoom: 22
       buffer-size: 128
-  - id: "capital-names"
-    name: "capital-names"
-    class: ""
-    geometry: "point"
+  - id: capital-names
+    name: capital-names
+    geometry: point
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -1641,11 +1552,10 @@ Layer:
       minzoom: 3
       maxzoom: 15
       buffer-size: 128
-    advanced: {}
-  - id: "state-names"
-    name: "state-names"
-    class: "state"
-    geometry: "point"
+  - id: state-names
+    name: state-names
+    class: state
+    geometry: point
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -1665,11 +1575,9 @@ Layer:
     properties:
       minzoom: 4
       buffer-size: 128
-    advanced: {}
-  - id: "placenames-medium"
-    name: "placenames-medium"
-    class: ""
-    geometry: "point"
+  - id: placenames-medium
+    name: placenames-medium
+    geometry: point
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -1714,11 +1622,9 @@ Layer:
       minzoom: 4
       maxzoom: 22
       buffer-size: 128
-    advanced: {}
-  - id: "placenames-small"
-    name: "placenames-small"
-    class: ""
-    geometry: "point"
+  - id: placenames-small
+    name: placenames-small
+    geometry: point
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -1748,11 +1654,10 @@ Layer:
       minzoom: 12
       maxzoom: 22
       buffer-size: 128
-    advanced: {}
-  - id: "stations"
-    class: "stations"
-    name: "stations"
-    geometry: "point"
+  - id: stations
+    class: stations
+    name: stations
+    geometry: point
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -1779,11 +1684,10 @@ Layer:
       minzoom: 12
       maxzoom: 22
       buffer-size: 32
-    advanced: {}
-  - id: "stations-poly"
-    name: "stations-poly"
-    class: "stations"
-    geometry: "polygon"
+  - id: stations-poly
+    name: stations-poly
+    class: stations
+    geometry: polygon
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -1802,11 +1706,10 @@ Layer:
     properties:
       minzoom: 12
       maxzoom: 22
-    advanced: {}
-  - id: "amenity-points-poly"
-    name: "amenity-points-poly"
-    class: "points"
-    geometry: "polygon"
+  - id: amenity-points-poly
+    name: amenity-points-poly
+    class: points
+    geometry: polygon
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -1877,11 +1780,10 @@ Layer:
       minzoom: 10
       maxzoom: 22
       buffer-size: 8
-    advanced: {}
-  - id: "amenity-points"
-    name: "amenity-points"
-    class: "points"
-    geometry: "point"
+  - id: amenity-points
+    name: amenity-points
+    class: points
+    geometry: point
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -1961,11 +1863,9 @@ Layer:
       minzoom: 10
       maxzoom: 22
       buffer-size: 8
-    advanced: {}
-  - id: "power-towers"
-    name: "power-towers"
-    class: ""
-    geometry: "point"
+  - id: power-towers
+    name: power-towers
+    geometry: point
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -1979,11 +1879,9 @@ Layer:
     properties:
       minzoom: 14
       maxzoom: 22
-    advanced: {}
-  - id: "power-poles"
-    name: "power-poles"
-    class: ""
-    geometry: "point"
+  - id: power-poles
+    name: power-poles
+    geometry: point
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -1997,11 +1895,9 @@ Layer:
     properties:
       minzoom: 16
       maxzoom: 22
-    advanced: {}
-  - id: "roads-text-ref-low-zoom"
-    name: "roads-text-ref-low-zoom"
-    class: ""
-    geometry: "linestring"
+  - id: roads-text-ref-low-zoom
+    name: roads-text-ref-low-zoom
+    geometry: linestring
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -2033,11 +1929,9 @@ Layer:
       minzoom: 10
       maxzoom: 12
       buffer-size: 64
-    advanced: {}
-  - id: "junctions"
-    name: "junctions"
-    class: ""
-    geometry: "point"
+  - id: junctions
+    name: junctions
+    geometry: point
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -2056,11 +1950,9 @@ Layer:
       minzoom: 11
       maxzoom: 22
       buffer-size: 32
-    advanced: {}
-  - id: "bridge-text"
-    name: "bridge-text"
-    class: ""
-    geometry: "polygon"
+  - id: bridge-text
+    name: bridge-text
+    geometry: polygon
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -2077,11 +1969,9 @@ Layer:
     properties:
       minzoom: 11
       maxzoom: 22
-    advanced: {}
-  - id: "roads-text-ref"
-    name: "roads-text-ref"
-    class: ""
-    geometry: "linestring"
+  - id: roads-text-ref
+    name: roads-text-ref
+    geometry: linestring
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -2116,11 +2006,9 @@ Layer:
       minzoom: 13
       maxzoom: 22
       buffer-size: 128
-    advanced: {}
-  - id: "roads-area-text-name"
-    name: "roads-area-text-name"
-    class: ""
-    geometry: "polygon"
+  - id: roads-area-text-name
+    name: roads-area-text-name
+    geometry: polygon
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -2139,11 +2027,10 @@ Layer:
     properties:
       minzoom: 15
       maxzoom: 22
-    advanced: {}
-  - id: "roads-text-name"
-    name: "roads-text-name"
-    class: "directions"
-    geometry: "linestring"
+  - id: roads-text-name
+    name: roads-text-name
+    class: directions
+    geometry: linestring
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -2171,11 +2058,9 @@ Layer:
     properties:
       minzoom: 13
       maxzoom: 22
-    advanced: {}
-  - id: "paths-text-name"
-    name: "paths-text-name"
-    class: ""
-    geometry: "linestring"
+  - id: paths-text-name
+    name: paths-text-name
+    geometry: linestring
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -2192,11 +2077,10 @@ Layer:
     properties:
       minzoom: 15
       maxzoom: 22
-    advanced: {}
-  - id: "text-poly-low-zoom"
-    name: "text-poly-low-zoom"
-    class: "text-low-zoom"
-    geometry: "polygon"
+  - id: text-poly-low-zoom
+    name: text-poly-low-zoom
+    class: text-low-zoom
+    geometry: polygon
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -2229,11 +2113,10 @@ Layer:
       minzoom: 7
       maxzoom: 9
       buffer-size: 30
-    advanced: {}
-  - id: "text-poly"
-    name: "text-poly"
-    class: "text"
-    geometry: "polygon"
+  - id: text-poly
+    name: text-poly
+    class: text
+    geometry: polygon
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -2317,11 +2200,9 @@ Layer:
       minzoom: 10
       maxzoom: 22
       buffer-size: 48
-    advanced: {}
-  - id: "text-line"
-    name: "text-line"
-    class: ""
-    geometry: "linestring"
+  - id: text-line
+    name: text-line
+    geometry: linestring
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -2343,14 +2224,13 @@ Layer:
               OR "natural" IN ('cliff'))
             AND name IS NOT NULL
         ) AS text_line
-    advanced: {}
     properties:
       minzoom: 10
       maxzoom: 22
-  - id: "text-point"
-    name: "text-point"
-    class: "text"
-    geometry: "point"
+  - id: text-point
+    name: text-point
+    class: text
+    geometry: point
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -2468,11 +2348,9 @@ Layer:
       minzoom: 10
       maxzoom: 22
       buffer-size: 48
-    advanced: {}
-  - id: "building-text"
-    name: "building-text"
-    class: ""
-    geometry: "polygon"
+  - id: building-text
+    name: building-text
+    geometry: polygon
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -2493,11 +2371,9 @@ Layer:
       minzoom: 14
       maxzoom: 22
       buffer-size: 128
-    advanced: {}
-  - id: "interpolation"
-    name: "interpolation"
-    class: ""
-    geometry: "linestring"
+  - id: interpolation
+    name: interpolation
+    geometry: linestring
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -2511,11 +2387,9 @@ Layer:
     properties:
       minzoom: 17
       maxzoom: 22
-    advanced: {}
-  - id: "addresses"
-    name: "addresses"
-    class: ""
-    geometry: "point"
+  - id: addresses
+    name: addresses
+    geometry: point
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -2544,11 +2418,9 @@ Layer:
       minzoom: 17
       maxzoom: 22
       buffer-size: 32
-    advanced: {}
-  - id: "water-lines-text"
-    name: "water-lines-text"
-    class: ""
-    geometry: "linestring"
+  - id: water-lines-text
+    name: water-lines-text
+    geometry: linestring
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -2570,11 +2442,9 @@ Layer:
     properties:
       minzoom: 13
       maxzoom: 22
-    advanced: {}
-  - id: "ferry-routes-text"
-    name: "ferry-routes-text"
-    class: ""
-    geometry: "linestring"
+  - id: ferry-routes-text
+    name: ferry-routes-text
+    geometry: linestring
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -2590,11 +2460,9 @@ Layer:
     properties:
       minzoom: 13
       maxzoom: 22
-    advanced: {}
-  - id: "admin-text"
-    name: "admin-text"
-    class: ""
-    geometry: "linestring"
+  - id: admin-text
+    name: admin-text
+    geometry: linestring
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -2613,11 +2481,9 @@ Layer:
     properties:
       minzoom: 16
       maxzoom: 22
-    advanced: {}
-  - id: "nature-reserve-text"
-    name: "nature-reserve-text"
-    class: ""
-    geometry: "linestring"
+  - id: nature-reserve-text
+    name: nature-reserve-text
+    geometry: linestring
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -2636,11 +2502,10 @@ Layer:
       minzoom: 13
       maxzoom: 22
       buffer-size: 30
-    advanced: {}
-  - id: "amenity-low-priority"
-    name: "amenity-low-priority"
-    class: "amenity-low-priority"
-    geometry: "point"
+  - id: amenity-low-priority
+    name: amenity-low-priority
+    class: amenity-low-priority
+    geometry: point
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -2670,11 +2535,10 @@ Layer:
     properties:
       minzoom: 14
       maxzoom: 22
-    advanced: {}
-  - id: "amenity-low-priority-poly"
-    name: "amenity-low-priority-poly"
-    class: "amenity-low-priority"
-    geometry: "polygon"
+  - id: amenity-low-priority-poly
+    name: amenity-low-priority-poly
+    class: amenity-low-priority
+    geometry: polygon
     <<: *extents
     Datasource:
       <<: *osm2pgsql
@@ -2694,4 +2558,3 @@ Layer:
     properties:
       minzoom: 14
       maxzoom: 22
-    advanced: {}
