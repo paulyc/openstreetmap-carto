@@ -4,7 +4,7 @@
 @state-labels: desaturate(darken(@admin-boundaries, 5%), 20%);
 
 /* used to be .country */
-#placenames-large {
+#country-names {
   [zoom >= 3][way_pixels > 1000][way_pixels < 360000] {
     text-name: "[name]";
     text-size: 10;
@@ -43,7 +43,8 @@
   }
 }
 
-.state {
+/* used to be .state */
+#state-names {
   [zoom >= 5][way_pixels > 3000][way_pixels < 196000] {
     text-name: "[name]";
     text-size: 10;
