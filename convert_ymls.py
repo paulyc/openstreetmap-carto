@@ -11,6 +11,9 @@ parser.add_argument("--zoom", default="14", help="Last zoom in the vector tile, 
 parser.add_argument("--source", action="store_true", dest="source")
 parser.add_argument("--no-source", action="store_false", dest="source")
 
+parser.add_argument("--only-shapefiles", action="store_true")
+parser.add_argument("--only-postgis", action="store_true")
+
 args = parser.parse_args()
 
 cwd = os.getcwd()
@@ -40,6 +43,12 @@ elif args.action == 'tm2source':
         # layer won't show up from 0-9, i.e. it won't show up at all.
         if layer['properties'].get('minzoom', 22) > zoom and layer['properties'].get('maxzoom', 22) >= zoom:
             layer['properties']['minzoom'] = zoom
+
+    if args.only_shapefiles:
+        projectfile['Layer'] = [l for l in projectfile['Layer'] if l['Datasource']['type'] == 'shape']
+    elif args.only_postgis:
+        projectfile['Layer'] = [l for l in projectfile['Layer'] if l['Datasource']['type'] == 'postgis']
+
 else:
     raise NotImplementedError()
 
