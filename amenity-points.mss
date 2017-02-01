@@ -641,6 +641,13 @@
     }
   }
 
+  [feature = 'shop_coffee'][zoom >= 17] {
+    marker-file: url('symbols/shop/coffee.svg');
+    marker-placement: interior;
+    marker-clip: false;
+    marker-fill: @shop-icon;
+  }
+
   [feature = 'shop_computer'][zoom >= 17] {
     marker-file: url('symbols/shop/computer.svg');
     marker-placement: interior;
@@ -1937,6 +1944,7 @@
   [feature = 'shop_beverages'],
   [feature = 'shop_books'],
   [feature = 'shop_clothes'],
+  [feature = 'shop_coffee'],
   [feature = 'shop_computer'],
   [feature = 'shop_fashion'],
   [feature = 'shop_convenience'],
