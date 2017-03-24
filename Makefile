@@ -32,6 +32,7 @@ postgresql-indexes: add-indexes.sql
 
 postgresql-fix-geometry:
 	# TODO later versions of osm2pgsql use 3857 instead of 900913 SRS
+	psql -d gis -c "DELETE FROM planet_osm_polygon WHERE ST_GeometryType(way) NOT IN ('ST_Polygon', 'ST_MultiPolgyon');"
 	psql -d gis -c "ALTER TABLE planet_osm_polygon ALTER COLUMN way TYPE geometry(MultiPolygon, 900913) USING ST_Multi(way);"
 
 install-node-modules:
