@@ -1,4 +1,4 @@
 {
-        "/pbfs/live": "tmsource://./osm-carto.tm2source/",
-        "/tiles": "tmstyle://./osm-carto.tm2/"
+    "/pbfs/live": { "source": "tmsource://./osm-carto.tm2source/" },
+    "/tiles": { "source": "tmstyle://./osm-carto.tm2/" }
 }
