@@ -117,7 +117,7 @@ A regular style.
 
                 "DejaVu Sans Book",
 
-                "unifont Medium";
+                "Unifont Medium";
 
 /*
 A bold style is available for almost all scripts. Bold text is heavier than
@@ -194,7 +194,7 @@ regular text and can be used for emphasis. Fallback is a regular style.
 
                 "DejaVu Sans Bold", "DejaVu Sans Book",
 
-                "unifont Medium";
+                "Unifont Medium";
 
 /*
 Italics are only available for the base font, not the other scripts.
@@ -266,7 +266,7 @@ For a considerable number of labels this style will make no difference to the re
 
                 "DejaVu Sans Oblique", "DejaVu Sans Book",
 
-                "unifont Medium";
+                "Unifont Medium";
 
 @water-color: #b5d0d0;
 @land-color: #f2efe9;
