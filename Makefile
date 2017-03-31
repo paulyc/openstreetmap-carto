@@ -1,6 +1,6 @@
 all: buildall
 
-buildall: reindexshapefiles postgresql-indexes osm-carto.tm2source/data.yml osm-carto.tm2/project.yml
+buildall: reindexshapefiles postgresql-indexes osm-carto.tm2source/data.yml osm-carto.tm2/project.xml
 
 osm-carto.tm2source/data.yml: project.mml
 	python convert_ymls.py --input project.mml --tm2source --zoom 14 --output osm-carto.tm2source/data.yml
