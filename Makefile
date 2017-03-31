@@ -16,11 +16,12 @@ osm-carto-postgis.tm2source/data.yml: project.mml
 	python convert_ymls.py --input project.mml --only-postgis --tm2source --zoom 14 --output osm-carto-postgis.tm2source/data.yml
 	ln -s ../data/ ./osm-carto-postgis.tm2source/ 2> /dev/null || true
 
-osm-carto.tm2/project.yml: project.mml *.mss
+osm-carto.tm2/project.xml: project.mml *.mss
 	python convert_ymls.py --input project.mml --tm2 --output osm-carto.tm2/project.yml
 	ln -s `pwd`/symbols/ ./osm-carto.tm2/ 2>/dev/null || true
 	cd ./osm-carto.tm2/ && ln -s ../*mss ./ 2>/dev/null || true
-
+	cp osm-carto.tm2/project.yml osm-carto.tm2/project.mml
+	./node_modules/.bin/carto -a "3.0.0" ./osm-carto.tm2/project.mml > ./osm-carto.tm2/project.xml
 
 %.index: %.shp
 	./node_modules/.bin/mapnik-shapeindex.js --shape_files $*.shp || true
@@ -39,7 +40,11 @@ install-node-modules:
 	# Bit of a hack, Don't know how to make make rely on existance of a directory
 	[ ! -d node_modules ] && npm install mapnik tilelive-tmsource tilelive-tmstyle tilejson tilelive-http tilelive-vector tessera || true
 
-tessera: install-node-modules buildall
+tessera-serve-vector-tiles.json: tessera-serve-vector-tiles.json.tmpl
+	PWD=$(pwd)
+	sed "s|PWD|${PWD}|" tessera-serve-vector-tiles.json.tmpl > tessera-serve-vector-tiles.json
+
+tessera: install-node-modules buildall tessera-serve-vector-tiles.json
 	python convert_ymls.py --input project.mml --tm2 --no-source --output osm-carto.tm2/project.yml
 	MAPNIK_FONT_PATH=$$(find /usr/share/fonts/ -type f | sed 's|/[^/]*$$||' | uniq | paste -s -d: -) ./node_modules/.bin/tessera -c tessera-serve-vector-tiles.json
 

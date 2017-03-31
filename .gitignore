@@ -12,3 +12,4 @@ localconfig.js
 osm-carto.tm2/*
 osm-carto.tm2source/*
 osm-carto-no-pois.tm2/*
+tessera-serve-vector-tiles.json
