@@ -32,7 +32,7 @@ if args.action == 'tm2':
 
 elif args.action == 'tm2source':
     del projectfile['source']
-    del projectfile['styles']
+    del projectfile['Stylesheet']
 
     zoom = int(args.zoom)
     projectfile['maxzoom'] = zoom
