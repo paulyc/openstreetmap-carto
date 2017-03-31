@@ -21,6 +21,7 @@ osm-carto.tm2/project.xml: project.mml *.mss
 	ln -s `pwd`/symbols/ ./osm-carto.tm2/ 2>/dev/null || true
 	cd ./osm-carto.tm2/ && ln -s ../*mss ./ 2>/dev/null || true
 	cp osm-carto.tm2/project.yml osm-carto.tm2/project.mml
+	echo "Generating Mapnik XML. This can take 5 minutes"
 	./node_modules/.bin/carto -a "3.0.0" ./osm-carto.tm2/project.mml > ./osm-carto.tm2/project.xml
 
 %.index: %.shp
