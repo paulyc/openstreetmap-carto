@@ -46,7 +46,6 @@ tessera-serve-vector-tiles.json: tessera-serve-vector-tiles.json.tmpl
 	sed "s|PWD|${PWD}|" tessera-serve-vector-tiles.json.tmpl > tessera-serve-vector-tiles.json
 
 tessera: install-node-modules buildall tessera-serve-vector-tiles.json
-	python convert_ymls.py --input project.mml --tm2 --no-source --output osm-carto.tm2/project.yml
 	MAPNIK_FONT_PATH=$$(find /usr/share/fonts/ -type f | sed 's|/[^/]*$$||' | uniq | paste -s -d: -) ./node_modules/.bin/tessera -c tessera-serve-vector-tiles.json
 
 mapbox-studio-classic: buildall
