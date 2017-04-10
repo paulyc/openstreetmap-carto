@@ -92,7 +92,3 @@ CREATE INDEX planet_osm_roads_idx38515936 ON planet_osm_roads USING GIST (way) W
 CREATE INDEX planet_osm_roads_idx58645906 ON planet_osm_roads USING GIST (way) WHERE ((osm_id < 0) AND (boundary = 'administrative'::text) AND (admin_level = ANY ('{0,1,2,3,4,5,6,7,8}'::text[])));
 CREATE INDEX planet_osm_roads_idx78845072 ON planet_osm_roads USING GIST (way) WHERE ((osm_id < 0) AND (boundary = 'administrative'::text) AND (admin_level = ANY ('{0,1,2,3,4}'::text[])));
 CREATE INDEX planet_osm_roads_idx89688848 ON planet_osm_roads USING GIST (way) WHERE ((osm_id < 0) AND (boundary = 'administrative'::text) AND (admin_level = ANY ('{0,1,2,3,4,5,6,7,8,9,10}'::text[])));
-ANALYZE planet_osm_line;
-ANALYZE planet_osm_point;
-ANALYZE planet_osm_polygon;
-ANALYZE planet_osm_roads;
