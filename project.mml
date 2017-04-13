@@ -33,6 +33,7 @@ _parts:
     dbname: "gis"
     key_field: ""
     geometry_field: "way"
+    srid: 3857
     extent: "-20037508,-20037508,20037508,20037508"
 
 source: 'tilejson+http://localhost:8080/pbfs/live/index.json'
