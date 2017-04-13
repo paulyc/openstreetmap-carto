@@ -7,12 +7,12 @@ osm-carto.tm2source/data.yml: project.mml
 	ln -s ../data/ ./osm-carto.tm2source/ 2> /dev/null || true
 
 osm-carto-shapefiles.tm2source/data.yml: project.mml
-	mkdir osm-carto-shapefiles.tm2source
+	mkdir osm-carto-shapefiles.tm2source || true
 	python convert_ymls.py --input project.mml --only-shapefiles --tm2source --zoom 14 --output osm-carto-shapefiles.tm2source/data.yml
 	ln -s ../data/ ./osm-carto-shapefiles.tm2source/ 2> /dev/null || true
 
 osm-carto-postgis.tm2source/data.yml: project.mml
-	mkdir osm-carto-postgis.tm2source
+	mkdir osm-carto-postgis.tm2source || true
 	python convert_ymls.py --input project.mml --only-postgis --tm2source --zoom 14 --output osm-carto-postgis.tm2source/data.yml
 	ln -s ../data/ ./osm-carto-postgis.tm2source/ 2> /dev/null || true
 
