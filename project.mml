@@ -39,8 +39,10 @@ _parts:
     asynchronous_request: true
     max_async_connection: 4
 
-source: 'tilejson+http://localhost:8080/pbfs/live/index.json'
-#source: 'tilejson+http://localhost:9000/index.json'
+# timeout tells tessera/tilelive how many milliseconds long to wait for a pbf
+# to be generated. Default is 5sec. Change to 1hr
+source: 'tilejson+http://localhost:8080/pbfs/live/index.json?timeout=3600000'
+#source: 'tilejson+http://localhost:9000/index.json?timeout=3600000'
 
 
 Stylesheet:
