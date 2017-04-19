@@ -2,21 +2,21 @@ all: buildall
 
 buildall: reindexshapefiles postgresql-indexes osm-carto.tm2source/data.yml osm-carto.tm2/project.xml
 
-osm-carto.tm2source/data.yml: project.mml
+osm-carto.tm2source/data.yml: project.mml Makefile
 	python convert_ymls.py --input project.mml --tm2source --zoom 14 --output osm-carto.tm2source/data.yml
 	ln -s ../data/ ./osm-carto.tm2source/ 2> /dev/null || true
 
-osm-carto-shapefiles.tm2source/data.yml: project.mml
+osm-carto-shapefiles.tm2source/data.yml: project.mml Makefile
 	mkdir osm-carto-shapefiles.tm2source || true
 	python convert_ymls.py --input project.mml --only-shapefiles --tm2source --zoom 14 --output osm-carto-shapefiles.tm2source/data.yml
 	ln -s ../data/ ./osm-carto-shapefiles.tm2source/ 2> /dev/null || true
 
-osm-carto-postgis.tm2source/data.yml: project.mml
+osm-carto-postgis.tm2source/data.yml: project.mml Makefile
 	mkdir osm-carto-postgis.tm2source || true
 	python convert_ymls.py --input project.mml --only-postgis --tm2source --zoom 14 --output osm-carto-postgis.tm2source/data.yml
 	ln -s ../data/ ./osm-carto-postgis.tm2source/ 2> /dev/null || true
 
-osm-carto.tm2/project.xml: project.mml *.mss
+osm-carto.tm2/project.xml: project.mml *.mss Makefile
 	python convert_ymls.py --input project.mml --tm2 --output osm-carto.tm2/project.yml
 	ln -s `pwd`/symbols/ ./osm-carto.tm2/ 2>/dev/null || true
 	cd ./osm-carto.tm2/ && ln -s ../*mss ./ 2>/dev/null || true
