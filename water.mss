@@ -104,10 +104,6 @@
       background/line-cap: round;
       background/line-join: round;
     }
-    water/line-color: @water-color;
-    water/line-width: 2;
-    water/line-cap: round;
-    water/line-join: round;
 
     [bridge = 'yes'] {
       [zoom >= 14] {
@@ -119,6 +115,11 @@
         [zoom >= 18] { bridgecasing/line-width: 13; }
       }
     }
+
+    water/line-color: @water-color;
+    water/line-width: 2;
+    water/line-cap: round;
+    water/line-join: round;
 
     [intermittent = 'yes'],
     [waterway = 'wadi'] {
@@ -193,9 +194,6 @@
         water/line-cap: butt;
         water/line-join: round;
         water/line-clip: false;
-        background/line-cap: butt;
-        background/line-join: round;
-        background/line-clip: false;
       }
 
       [waterway = 'stream'][zoom >= 15] {
