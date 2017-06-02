@@ -62,3 +62,5 @@ clean:
 	rmdir osm-carto.tm2/data/ || true
 	rm -f osm-carto.tm2/*
 	rm -f osm-carto.tm2source/*
+	rm -f osm-carto-shapefiles.tm2source/*
+	rm -f osm-carto-postgis.tm2source/*
