@@ -39,7 +39,7 @@ postgresql-fix-geometry:
 
 install-node-modules:
 	# Bit of a hack, Don't know how to make make rely on existance of a directory
-	[ ! -d node_modules ] && npm install mapnik tilelive-tmsource tilelive-tmstyle tilejson tilelive-http tilelive-vector tessera carto@">=0.16" tilelive-file || true
+	[ ! -d node_modules ] && npm install tilelive-tmsource tilelive-tmstyle tilejson tilelive-http tilelive-vector tessera carto@">=0.16" tilelive-file || true
 
 tessera-serve-vector-tiles.json: tessera-serve-vector-tiles.json.tmpl
 	PWD=$(pwd)
